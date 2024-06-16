@@ -591,7 +591,7 @@ void replaceNewlineWithNull(char* str) {
 }
 
 
-unique_ptr<model_t> load_model(const string objname, float scale_factor) {
+unique_ptr<model_t> load_model(const string objname, const string modeldir, float scale_factor) {
 	auto nm = std::make_unique<model_t>();
 	int count = 0;
 	int num = 0;
@@ -604,8 +604,9 @@ unique_ptr<model_t> load_model(const string objname, float scale_factor) {
 	char buffers[256];
 	char buffer[256];  // 줄을 읽을 버퍼
 
+	string fullobjdir = modeldir + objname;
 	FILE* fp;
-	fp = fopen(objname.c_str(), "r");
+	fp = fopen(fullobjdir.c_str(), "r");
 	int lines = 0;
 	int material_num = -1;
 	while (fgets(buffer, sizeof(buffer), fp))
@@ -613,7 +614,8 @@ unique_ptr<model_t> load_model(const string objname, float scale_factor) {
 		/*if (lines == 7150)
 			cout << "asdf" << endl;*/
 		if (strncmp(buffer, mtllib, strlen(mtllib)) == 0) {
-			char mtlfilename[300] = "models\\";
+			char mtlfilename[300];
+			strcpy(mtlfilename, modeldir.c_str());
 			strcat_s(mtlfilename, sizeof(mtlfilename), buffer + strlen(mtllib) + 1);
 			FILE* fmp;
 			replaceNewlineWithNull(mtlfilename);
@@ -666,7 +668,8 @@ unique_ptr<model_t> load_model(const string objname, float scale_factor) {
 				}
 				count = sscanf(bufferm, "map_Kd %s\n", buffers);
 				if (count == 1) {
-					char mkdfilename[300] = "models\\";
+					char mkdfilename[300];
+					strcpy(mkdfilename, modeldir.c_str());
 					strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
 					nm->material.at(mtx_idx).loadTexture(mkdfilename);
 				}
@@ -906,7 +909,7 @@ int main(int argc, char* argv[])
 	}
 	fclose(fpp);
 
-	models.push_back(load_model("models\\Echidna.obj", 1.0));
+	models.push_back(load_model("Echidna.obj","models\\", 1.0));
 
 
 	InitializeWindow(argc, argv);
