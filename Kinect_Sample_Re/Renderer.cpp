@@ -883,7 +883,7 @@ int main(int argc, char* argv[])
 
 	models.push_back(load_model("Echidna.obj", "models\\", 2.0));
 	models.push_back(load_model("tv.obj", "models\\", 1.0));
-	models.push_back(load_model("EmptyRoom(OBJ).obj", "models\\Room\\", 10.0));
+	models.push_back(load_model("church floor.obj", "models\\floor\\", 10.0));
 	float tempf[4] = { 1, 0, 0, 1 };
 	models.at(0)->translation(tempf);
 	//models.at(0)->rotation(tempf);
