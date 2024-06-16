@@ -415,7 +415,7 @@ void display()
 
 
 
-		GLenum format = (nm->nrChannels == 4) ? GL_RGBA : GL_RGB;
+		/*GLenum format = (nm->nrChannels == 4) ? GL_RGBA : GL_RGB;
 		glTexImage2D(GL_TEXTURE_2D, 0, format, nm->width, nm->height, 0, format, GL_UNSIGNED_BYTE, nm->texels);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -425,10 +425,25 @@ void display()
 
 
 		glEnable(GL_TEXTURE_2D);
-		glBegin(GL_QUADS);
+		glBegin(GL_QUADS);*/
+		int mat_num = -1;
 
 		for (MMesh const &mm : nm->mymesh)
 		{
+			if (mm.m != mat_num) {
+				mat_num = mm.m;
+				glEnd();
+				GLenum format = (nm->material.at(mat_num).nrChannels == 4) ? GL_RGBA : GL_RGB;
+				glTexImage2D(GL_TEXTURE_2D, 0, format, nm->material.at(mat_num).width,
+					nm->material.at(mat_num).height, 0, format, GL_UNSIGNED_BYTE, nm->material.at(mat_num).mkd);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+				glEnable(GL_TEXTURE_2D);
+				glBegin(GL_QUADS);
+			}
 			if (mm.V4 > 0)
 				glBegin(GL_QUADS);
 			else
@@ -556,8 +571,27 @@ bool model_t::loadTexture(const char* filename) {
 	return true;
 }
 
+bool Material::loadTexture(const char* filename) {
+	// 이미지 로딩
+	mkd = stbi_load(filename, &width, &height, &nrChannels, 0);
+	if (!mkd) {
+		std::cerr << "Failed to load texture: " << filename << std::endl;
+		return false;
+	}
+	return true;
+}
 
-unique_ptr<model_t> load_model(const string objname, const string imgname, float scale_factor) {
+void replaceNewlineWithNull(char* str) {
+	size_t length = strlen(str); // 문자열의 길이를 구합니다.
+	for (size_t i = 0; i < length; ++i) {
+		if (str[i] == '\n') {
+			str[i] = '\0';
+		}
+	}
+}
+
+
+unique_ptr<model_t> load_model(const string objname, float scale_factor) {
 	auto nm = std::make_unique<model_t>();
 	int count = 0;
 	int num = 0;
@@ -566,18 +600,78 @@ unique_ptr<model_t> load_model(const string objname, const string imgname, float
 	float max_x = -100000, min_x = 100000, max_y = -100000, min_y = 100000, max_z = -100000, min_z = 100000;
 	float x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4;
 	bool start_flag = true;
-
+	const char mtllib[] = "mtllib";
+	char buffers[256];
 	char buffer[256];  // 줄을 읽을 버퍼
-
-	nm->loadTexture(imgname.c_str());
 
 	FILE* fp;
 	fp = fopen(objname.c_str(), "r");
 	int lines = 0;
+	int material_num = -1;
 	while (fgets(buffer, sizeof(buffer), fp))
 	{
 		/*if (lines == 7150)
 			cout << "asdf" << endl;*/
+		if (strncmp(buffer, mtllib, strlen(mtllib)) == 0) {
+			char mtlfilename[300] = "models\\";
+			strcat_s(mtlfilename, sizeof(mtlfilename), buffer + strlen(mtllib) + 1);
+			FILE* fmp;
+			replaceNewlineWithNull(mtlfilename);
+			fmp = fopen(mtlfilename, "r");
+			char bufferm[256];
+			int mtx_idx = -1;
+			while (fgets(bufferm, sizeof(bufferm), fmp)) {
+				//cout << bufferm;
+				count = sscanf(bufferm, "newmtl %s\n", buffers);
+				if (count == 1) {
+					nm->material.push_back(Material());
+					mtx_idx++;
+					nm->material.at(mtx_idx).name.assign(buffers);
+				}
+				count = sscanf(bufferm, "Ns %f\n", &x);
+				if (count == 1) {
+					nm->material.at(mtx_idx).ns = x;
+				}
+				count = sscanf(bufferm, "Ka %f %f %f\n", &x, &y, &z);
+				if (count == 3) {
+					nm->material.at(mtx_idx).ka[0] = x;
+					nm->material.at(mtx_idx).ka[1] = y;
+					nm->material.at(mtx_idx).ka[2] = z;
+				}
+				count = sscanf(bufferm, "Kd %f %f %f\n", &x, &y, &z);
+				if (count == 3) {
+					nm->material.at(mtx_idx).kd[0] = x;
+					nm->material.at(mtx_idx).kd[1] = y;
+					nm->material.at(mtx_idx).kd[2] = z;
+				}
+				count = sscanf(bufferm, "Ks %f %f %f\n", &x, &y, &z);
+				if (count == 3) {
+					nm->material.at(mtx_idx).ks[0] = x;
+					nm->material.at(mtx_idx).ks[1] = y;
+					nm->material.at(mtx_idx).ks[2] = z;
+				}
+				count = sscanf(bufferm, "Ke %f %f %f\n", &x, &y, &z);
+				if (count == 3) {
+					nm->material.at(mtx_idx).ke[0] = x;
+					nm->material.at(mtx_idx).ke[1] = y;
+					nm->material.at(mtx_idx).ke[2] = z;
+				}
+				count = sscanf(bufferm, "Ni %f\n", &x);
+				if (count == 1) {
+					nm->material.at(mtx_idx).ni = x;
+				}
+				count = sscanf(bufferm, "d %f\n", &x);
+				if (count == 1) {
+					nm->material.at(mtx_idx).d = x;
+				}
+				count = sscanf(bufferm, "map_Kd %s\n", buffers);
+				if (count == 1) {
+					char mkdfilename[300] = "models\\";
+					strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
+					nm->material.at(mtx_idx).loadTexture(mkdfilename);
+				}
+			}
+		}
 		count = sscanf(buffer, "v %f %f %f", &x, &y, &z);
 		if (count == 3)
 		{
@@ -603,12 +697,21 @@ unique_ptr<model_t> load_model(const string objname, const string imgname, float
 				max_y = vt.Y;
 			nm->vertex.push_back(vt);
 		}
+		count = sscanf(buffer, "usemtl %s\n", buffers);
+		if (count == 1)
+		{
+			string temp_material_name(buffers);
+			for (int k = 0; k < nm->material.size(); k++) {
+				if (nm->material.at(k).name == temp_material_name)
+					material_num = k;
+			}
+		}
 		count = sscanf(buffer, "vt %f %f %f", &x, &y, &z);
 		if (count == 3)
 		{
 			Vertex vt;
 			vt.X = x;
-			vt.Y = y;
+			vt.Y = 1-y;
 			vt.Z = z;
 			nm->vertex_color.push_back(vt);
 		}
@@ -616,7 +719,7 @@ unique_ptr<model_t> load_model(const string objname, const string imgname, float
 		{
 			Vertex vt;
 			vt.X = x;
-			vt.Y = y;
+			vt.Y = 1-y;
 			nm->vertex_color.push_back(vt);
 		}
 		count = sscanf(buffer, "f %f/%f/%f %f/%f/%f %f/%f/%f %f/%f/%f", &x1, &y1, &z1, &x2, &y2, &z2, &x3, &y3, &z3, &x4, &y4, &z4);
@@ -635,6 +738,7 @@ unique_ptr<model_t> load_model(const string objname, const string imgname, float
 			mt.N2 = z2;
 			mt.N3 = z3;
 			mt.N4 = z4;
+			mt.m = material_num;
 			nm->mymesh.push_back(mt);
 		}
 		else if (count == 9)
@@ -652,6 +756,7 @@ unique_ptr<model_t> load_model(const string objname, const string imgname, float
 			mt.N2 = z2;
 			mt.N3 = z3;
 			mt.N4 = -1;
+			mt.m = material_num;
 			nm->mymesh.push_back(mt);
 		}
 		count = sscanf(buffer, "f %f//%f %f//%f %f//%f %f//%f", &x1, &z1, &x2, &z2, &x3, &z3, &x4, &z4);
@@ -670,6 +775,7 @@ unique_ptr<model_t> load_model(const string objname, const string imgname, float
 			mt.N2 = z2;
 			mt.N3 = z3;
 			mt.N4 = z4;
+			mt.m = material_num;
 			nm->mymesh.push_back(mt);
 		}
 		else if (count == 6)
@@ -687,6 +793,7 @@ unique_ptr<model_t> load_model(const string objname, const string imgname, float
 			mt.N2 = z2;
 			mt.N3 = z3;
 			mt.N4 = -1;
+			mt.m = material_num;
 			nm->mymesh.push_back(mt);
 		}
 		lines++;
@@ -799,7 +906,7 @@ int main(int argc, char* argv[])
 	}
 	fclose(fpp);
 
-	models.push_back(load_model("models\\tv.obj", "models\\tv.png", 1.0));
+	models.push_back(load_model("models\\Echidna.obj", 1.0));
 
 
 	InitializeWindow(argc, argv);

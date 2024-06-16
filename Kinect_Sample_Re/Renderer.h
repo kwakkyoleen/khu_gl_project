@@ -28,17 +28,20 @@ struct Vertex{
 	int index_3;
 };
 
-struct Material {
+class Material {
+public:
+	unsigned char* mkd;
 	string name;
 	float ns;
-	float ka;
-	float kd;
-	float ks;
-	float ke;
+	float ka[3];
+	float kd[3];
+	float ks[3];
+	float ke[3];
 	float ni;
 	float d;
-	float illum;
-	unsigned char* kd;
+	int illum;
+	int width, height, nrChannels;
+	bool loadTexture(const char* filename);
 };
 
 struct MMesh {
@@ -54,6 +57,7 @@ struct MMesh {
 	int N2;
 	int N3;
 	int N4;
+	int m;
 };
 
 class model_t {
@@ -61,6 +65,7 @@ public :
 	vector<Vertex> vertex;
 	vector<Vertex> vertex_color;
 	vector<MMesh> mymesh;
+	vector<Material> material;
 	int polygon_type; //3 or 4
 	float zmin = 100000;
 	float zmax = -100000;
@@ -70,6 +75,9 @@ public :
 
 	~model_t() {
 		stbi_image_free(texels);
+		for (Material m : material) {
+			stbi_image_free(m.mkd);
+		}
 	}
 };
 
