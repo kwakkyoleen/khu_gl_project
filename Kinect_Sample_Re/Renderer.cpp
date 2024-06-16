@@ -368,71 +368,83 @@ void InitializeWindow(int argc, char* argv[])
 
 void display()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(60, 1, 0.1, 200);
+	glTranslatef(t[0], t[1], t[2] - 1.0f);
+	glScalef(1, 1, 1);
+	GLfloat m[4][4], m1[4][4];
+	build_rotmatrix(m, quat);
+	gluLookAt(0, 2.0, 2.0, 0, 0, 0, 0, 1.0, 0);
+
+	GLfloat r, g, b;
+	glMultMatrixf(&m[0][0]);
+
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	GLfloat diffuse0[4] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat ambient0[4] = { 0.5, 0.5, 0.5, 1.0 };
+	GLfloat specular0[4] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat light0_pos[4] = { 2.0, 2.0, 2.0, 1.0 };
+
+	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse0);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specular0);
+
+
+	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
+	glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
+	glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.05);
+
+
+	//빨간색 플라스틱과 유사한 재질을 다음과 같이 정의
+	GLfloat mat_ambient[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	GLfloat mat_diffuse[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
+	GLfloat mat_specular[4] = { 0.8f, 0.6f, 0.6f, 1.0f };
+	GLfloat mat_shininess = 32.0;
+
+	//// 폴리곤의 앞면의 재질을 설정 
+	//glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+	//glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+	//glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
+
+
+
+	/*GLenum format = (nm->nrChannels == 4) ? GL_RGBA : GL_RGB;
+	glTexImage2D(GL_TEXTURE_2D, 0, format, nm->width, nm->height, 0, format, GL_UNSIGNED_BYTE, nm->texels);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+
+	glEnable(GL_TEXTURE_2D);
+	glBegin(GL_QUADS);*/
 	for (auto& nm : models) {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		gluPerspective(60, 1, 0.1, 200);
-		glTranslatef(t[0], t[1], t[2] - 1.0f);
-		glScalef(1, 1, 1);
-		GLfloat m[4][4], m1[4][4];
-		build_rotmatrix(m, quat);
-		gluLookAt(0, 2.0, 2.0, 0, 0, 0, 0, 1.0, 0);
-
-		GLfloat r, g, b;
-		glMultMatrixf(&m[0][0]);
-
-
-		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
-		GLfloat diffuse0[4] = { 1.0, 1.0, 1.0, 1.0 };
-		GLfloat ambient0[4] = { 0.5, 0.5, 0.5, 1.0 };
-		GLfloat specular0[4] = { 1.0, 1.0, 1.0, 1.0 };
-		GLfloat light0_pos[4] = { 2.0, 2.0, 2.0, 1.0 };
-
-		glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse0);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, specular0);
-
-
-		glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
-		glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
-		glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.05);
-
-
-		//빨간색 플라스틱과 유사한 재질을 다음과 같이 정의
-		GLfloat mat_ambient[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
-		GLfloat mat_diffuse[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
-		GLfloat mat_specular[4] = { 0.8f, 0.6f, 0.6f, 1.0f };
-		GLfloat mat_shininess = 32.0;
-
-		// 폴리곤의 앞면의 재질을 설정 
-		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-		glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-		glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
-
-
-
-		/*GLenum format = (nm->nrChannels == 4) ? GL_RGBA : GL_RGB;
-		glTexImage2D(GL_TEXTURE_2D, 0, format, nm->width, nm->height, 0, format, GL_UNSIGNED_BYTE, nm->texels);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-
-		glEnable(GL_TEXTURE_2D);
-		glBegin(GL_QUADS);*/
+		
 		int mat_num = -1;
 
 		for (MMesh const &mm : nm->mymesh)
 		{
 			if (mm.m != mat_num) {
 				mat_num = mm.m;
-				glEnd();
+				if (nm->material.at(mat_num).iskdefined()) {
+					glMaterialfv(GL_FRONT, GL_AMBIENT, nm->material.at(mat_num).ka);
+					glMaterialfv(GL_FRONT, GL_DIFFUSE, nm->material.at(mat_num).kd);
+					glMaterialfv(GL_FRONT, GL_SPECULAR, nm->material.at(mat_num).ks);
+					glMaterialf(GL_FRONT, GL_SHININESS, nm->material.at(mat_num).illum);
+				}
+				else {
+					glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+					glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+					glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+					glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
+				}
 				GLenum format = (nm->material.at(mat_num).nrChannels == 4) ? GL_RGBA : GL_RGB;
 				glTexImage2D(GL_TEXTURE_2D, 0, format, nm->material.at(mat_num).width,
 					nm->material.at(mat_num).height, 0, format, GL_UNSIGNED_BYTE, nm->material.at(mat_num).mkd);
@@ -442,7 +454,6 @@ void display()
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 				glEnable(GL_TEXTURE_2D);
-				glBegin(GL_QUADS);
 			}
 			if (mm.V4 > 0)
 				glBegin(GL_QUADS);
@@ -465,8 +476,9 @@ void display()
 			glEnd();
 		}
 		//glEnd();
-		glutSwapBuffers();
+		
 	}
+	glutSwapBuffers();
 //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 //glMatrixMode(GL_PROJECTION);
 //glLoadIdentity();
@@ -542,6 +554,37 @@ void display()
 
 }
 
+void model_t::translation(const float t[]) {
+	for (Vertex &v : vertex) {
+		v.X += t[0];
+		v.Y += t[1];
+		v.Z += t[2];
+	}
+}
+void model_t::rotation(const float t[]) {
+	float rad = t[3];
+	for (Vertex& v : vertex) {
+		if (t[0] > 0) {
+			float y = v.Y * cos(rad) - v.Z * sin(rad);
+			float z = v.Y * sin(rad) + v.Z * cos(rad);
+			v.Y = y;
+			v.Z = z;
+		}
+		if (t[1] > 0) {
+			float x = v.X * cos(rad) - v.Z * sin(rad);
+			float z = v.X * sin(rad) + v.Z * cos(rad);
+			v.X = x;
+			v.Z = z;
+		}
+		if (t[2] > 0) {
+			float x = v.X * cos(rad) - v.Y * sin(rad);
+			float y = v.X * sin(rad) + v.Y * cos(rad);
+			v.X = x;
+			v.Y = y;
+		}
+	}
+}
+
 bool model_t::loadTexture(const char* filename) {
 	// 이미지 로딩
 	texels = stbi_load(filename, &width, &height, &nrChannels, 0);
@@ -580,6 +623,17 @@ bool Material::loadTexture(const char* filename) {
 	}
 	return true;
 }
+
+bool Material::iskdefined()
+{
+	bool correct = false;
+	for (int i = 0; i < 3; i++) {
+		if (ka[i] > 0 || kd[i] > 0 || ks[i] > 0)
+			correct = true;
+	}
+	return correct;
+}
+
 
 void replaceNewlineWithNull(char* str) {
 	size_t length = strlen(str); // 문자열의 길이를 구합니다.
@@ -639,24 +693,28 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 					nm->material.at(mtx_idx).ka[0] = x;
 					nm->material.at(mtx_idx).ka[1] = y;
 					nm->material.at(mtx_idx).ka[2] = z;
+					nm->material.at(mtx_idx).ka[3] = 1;
 				}
 				count = sscanf(bufferm, "Kd %f %f %f\n", &x, &y, &z);
 				if (count == 3) {
 					nm->material.at(mtx_idx).kd[0] = x;
 					nm->material.at(mtx_idx).kd[1] = y;
 					nm->material.at(mtx_idx).kd[2] = z;
+					nm->material.at(mtx_idx).kd[3] = 1;
 				}
 				count = sscanf(bufferm, "Ks %f %f %f\n", &x, &y, &z);
 				if (count == 3) {
 					nm->material.at(mtx_idx).ks[0] = x;
 					nm->material.at(mtx_idx).ks[1] = y;
 					nm->material.at(mtx_idx).ks[2] = z;
+					nm->material.at(mtx_idx).ks[3] = 1;
 				}
 				count = sscanf(bufferm, "Ke %f %f %f\n", &x, &y, &z);
 				if (count == 3) {
 					nm->material.at(mtx_idx).ke[0] = x;
 					nm->material.at(mtx_idx).ke[1] = y;
 					nm->material.at(mtx_idx).ke[2] = z;
+					nm->material.at(mtx_idx).ke[3] = 1;
 				}
 				count = sscanf(bufferm, "Ni %f\n", &x);
 				if (count == 1) {
@@ -823,93 +881,12 @@ int main(int argc, char* argv[])
 	vertex_color = new Vertex[100000];
 	mymesh = new MMesh[100000];
 
-	int i, j, k = 0;
-	FILE* f = fopen("applet.bmp", "rb");
-	unsigned char info[54];
-	fread(info, sizeof(unsigned char), 54, f); // read the 54-byte header
-											   // extract image height and width from header
-	int width = *(int*)&info[18];
-	int height = *(int*)&info[22];
-
-	int size = 3 * width * height;
-	unsigned char* data = new unsigned char[size]; // allocate 3 bytes per pixel
-	fread(data, sizeof(unsigned char), size, f); // read the rest of the data at once
-	fclose(f);
-	for (i = 0; i < width; i++)
-		for (j = 0; j < height; j++)
-		{
-			mytexels[j][i][0] = data[k * 3 + 2];
-			mytexels[j][i][1] = data[k * 3 + 1];
-			mytexels[j][i][2] = data[k * 3];
-			k++;
-		}
-
-	FILE* fp;
-	fp = fopen("apple.obj", "r");
-	int count = 0;
-	int num = 0;
-	char ch;
-	float x, y, z;
-
-	for (j = 0; j < 100000; j = j + 1)
-	{
-		count = fscanf(fp, "v %f %f %f /n", &x, &y, &z);
-		if (count == 3)
-		{
-			vertex[j].X = x / scale;
-			vertex[j].Y = y / scale;
-			vertex[j].Z = z / scale;
-			if (vertex[j].Z < zmin)
-				zmin = vertex[j].Z;
-			if (vertex[j].Z > zmax)
-				zmax = vertex[j].Z;
-		}
-		else
-			break;
-	}
-	fclose(fp);
-
-
-	fp = fopen("applet.txt", "r");
-
-	for (j = 0; j < 100000; j = j + 1)
-	{
-		count = fscanf(fp, "vt %f %f %f /n", &x, &y, &z);
-		if (count == 3)
-		{
-			vertex_color[j].X = x;
-			vertex_color[j].Y = y;
-			vertex_color[j].Z = z;
-		}
-		else
-			break;
-	}
-	fclose(fp);
-
-	FILE* fpp;
-	fpp = fopen("applef2.txt", "r");
-	float x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4;
-
-	for (j = 0; j < 100000; j = j + 1)
-	{
-		count = fscanf(fp, "f %f/%f/%f %f/%f/%f %f/%f/%f %f/%f/%f /n", &x1, &y1, &z1, &x2, &y2, &z2, &x3, &y3, &z3, &x4, &y4, &z4);
-		if (count == 12)
-		{
-			mymesh[j].V1 = x1;
-			mymesh[j].V2 = x2;
-			mymesh[j].V3 = x3;
-			mymesh[j].V4 = x4;
-			mymesh[j].T1 = y1;
-			mymesh[j].T2 = y2;
-			mymesh[j].T3 = y3;
-			mymesh[j].T4 = y4;
-		}
-		else
-			break;
-	}
-	fclose(fpp);
-
-	models.push_back(load_model("Echidna.obj","models\\", 1.0));
+	models.push_back(load_model("Echidna.obj", "models\\", 2.0));
+	models.push_back(load_model("tv.obj", "models\\", 1.0));
+	models.push_back(load_model("EmptyRoom(OBJ).obj", "models\\Room\\", 10.0));
+	float tempf[4] = { 1, 0, 0, 1 };
+	models.at(0)->translation(tempf);
+	//models.at(0)->rotation(tempf);
 
 
 	InitializeWindow(argc, argv);

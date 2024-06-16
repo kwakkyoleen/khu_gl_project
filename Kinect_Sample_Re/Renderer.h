@@ -33,15 +33,16 @@ public:
 	unsigned char* mkd;
 	string name;
 	float ns;
-	float ka[3];
-	float kd[3];
-	float ks[3];
-	float ke[3];
-	float ni;
-	float d;
-	int illum;
+	GLfloat ka[4] = {0.0f,0.0f,0.0f,1.0f};
+	GLfloat kd[4] = { 0.0f,0.0f,0.0f,1.0f };
+	GLfloat ks[4] = { 0.0f,0.0f,0.0f,1.0f };
+	GLfloat ke[4] = { 0.0f,0.0f,0.0f,1.0f };
+	float ni = 0;
+	float d = 0;
+	int illum = 0;
 	int width, height, nrChannels;
 	bool loadTexture(const char* filename);
+	bool iskdefined();
 };
 
 struct MMesh {
@@ -72,6 +73,8 @@ public :
 	int width, height, nrChannels;
 	unsigned char* texels;
 	bool loadTexture(const char* filename);
+	void translation(const float t[]);
+	void rotation(const float t[]);
 
 	~model_t() {
 		stbi_image_free(texels);
