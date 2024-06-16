@@ -427,20 +427,29 @@ void display()
 		glEnable(GL_TEXTURE_2D);
 		glBegin(GL_QUADS);
 
-		for (int jj = 0; jj < nm->mymesh.size(); jj = jj + 1)
+		for (MMesh const &mm : nm->mymesh)
 		{
-			glTexCoord2d(nm->vertex_color.at(nm->mymesh.at(jj).T1 - 1).X, nm->vertex_color.at(nm->mymesh.at(jj).T1 - 1).Y);
-			glVertex3f(nm->vertex.at(nm->mymesh.at(jj).V1 - 1).X, nm->vertex.at(nm->mymesh.at(jj).V1 - 1).Y, nm->vertex.at(nm->mymesh.at(jj).V1 - 1).Z);
-			glTexCoord2d(nm->vertex_color.at(nm->mymesh.at(jj).T2 - 1).X, nm->vertex_color.at(nm->mymesh.at(jj).T2 - 1).Y);
-			glVertex3f(nm->vertex.at(nm->mymesh.at(jj).V2 - 1).X, nm->vertex.at(nm->mymesh.at(jj).V2 - 1).Y, nm->vertex.at(nm->mymesh.at(jj).V2 - 1).Z);
-			glTexCoord2d(nm->vertex_color.at(nm->mymesh.at(jj).T3 - 1).X, nm->vertex_color.at(nm->mymesh.at(jj).T3 - 1).Y);
-			glVertex3f(nm->vertex.at(nm->mymesh.at(jj).V3 - 1).X, nm->vertex.at(nm->mymesh.at(jj).V3 - 1).Y, nm->vertex.at(nm->mymesh.at(jj).V3 - 1).Z);
-			if (nm->mymesh.at(jj).T4 > 0) {
-				glTexCoord2d(nm->vertex_color.at(nm->mymesh.at(jj).T4 - 1).X, nm->vertex_color.at(nm->mymesh.at(jj).T4 - 1).Y);
-				glVertex3f(nm->vertex.at(nm->mymesh.at(jj).V4 - 1).X, nm->vertex.at(nm->mymesh.at(jj).V4 - 1).Y, nm->vertex.at(nm->mymesh.at(jj).V4 - 1).Z);
+			if (mm.V4 > 0)
+				glBegin(GL_QUADS);
+			else
+				glBegin(GL_TRIANGLES);
+			if(mm.T1 > 0)
+				glTexCoord2d(nm->vertex_color.at(mm.T1 - 1).X, nm->vertex_color.at(mm.T1 - 1).Y);
+			glVertex3f(nm->vertex.at(mm.V1 - 1).X, nm->vertex.at(mm.V1 - 1).Y, nm->vertex.at(mm.V1 - 1).Z);
+			if (mm.T2 > 0)
+				glTexCoord2d(nm->vertex_color.at(mm.T2 - 1).X, nm->vertex_color.at(mm.T2 - 1).Y);
+			glVertex3f(nm->vertex.at(mm.V2 - 1).X, nm->vertex.at(mm.V2 - 1).Y, nm->vertex.at(mm.V2 - 1).Z);
+			if (mm.T3 > 0)
+				glTexCoord2d(nm->vertex_color.at(mm.T3 - 1).X, nm->vertex_color.at(mm.T3 - 1).Y);
+			glVertex3f(nm->vertex.at(mm.V3 - 1).X, nm->vertex.at(mm.V3 - 1).Y, nm->vertex.at(mm.V3 - 1).Z);
+			if (mm.V4 > 0) {
+				if (mm.T4 > 0)
+					glTexCoord2d(nm->vertex_color.at(mm.T4 - 1).X, nm->vertex_color.at(mm.T4 - 1).Y);
+				glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
 			}
+			glEnd();
 		}
-		glEnd();
+		//glEnd();
 		glutSwapBuffers();
 	}
 //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -548,12 +557,13 @@ bool model_t::loadTexture(const char* filename) {
 }
 
 
-unique_ptr<model_t> load_model(const string objname, const string imgname) {
+unique_ptr<model_t> load_model(const string objname, const string imgname, float scale_factor) {
 	auto nm = std::make_unique<model_t>();
 	int count = 0;
 	int num = 0;
 	char ch;
 	float x, y, z;
+	float max_x = -100000, min_x = 100000, max_y = -100000, min_y = 100000, max_z = -100000, min_z = 100000;
 	float x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4;
 	bool start_flag = true;
 
@@ -563,8 +573,11 @@ unique_ptr<model_t> load_model(const string objname, const string imgname) {
 
 	FILE* fp;
 	fp = fopen(objname.c_str(), "r");
+	int lines = 0;
 	while (fgets(buffer, sizeof(buffer), fp))
 	{
+		/*if (lines == 7150)
+			cout << "asdf" << endl;*/
 		count = sscanf(buffer, "v %f %f %f", &x, &y, &z);
 		if (count == 3)
 		{
@@ -572,10 +585,22 @@ unique_ptr<model_t> load_model(const string objname, const string imgname) {
 			vt.X = x / scale;
 			vt.Y = y / scale;
 			vt.Z = z / scale;
-			if (vt.Z < nm->zmin)
+			if (vt.Z < nm->zmin) {
 				nm->zmin = vt.Z;
-			if (vt.Z > nm->zmax)
+				min_z = vt.Z;
+			}
+			if (vt.Z > nm->zmax) {
 				nm->zmax = vt.Z;
+				max_z = vt.Z;
+			}
+			if (vt.X < min_x)
+				min_x = vt.X;
+			if (vt.X > max_x)
+				max_x = vt.X;
+			if (vt.Y < min_y)
+				min_y = vt.Y;
+			if (vt.Y > max_y)
+				max_y = vt.Y;
 			nm->vertex.push_back(vt);
 		}
 		count = sscanf(buffer, "vt %f %f %f", &x, &y, &z);
@@ -629,8 +654,55 @@ unique_ptr<model_t> load_model(const string objname, const string imgname) {
 			mt.N4 = -1;
 			nm->mymesh.push_back(mt);
 		}
+		count = sscanf(buffer, "f %f//%f %f//%f %f//%f %f//%f", &x1, &z1, &x2, &z2, &x3, &z3, &x4, &z4);
+		if (count == 8)
+		{
+			MMesh mt;
+			mt.V1 = x1;
+			mt.V2 = x2;
+			mt.V3 = x3;
+			mt.V4 = x4;
+			mt.T1 = 0;
+			mt.T2 = 0;
+			mt.T3 = 0;
+			mt.T4 = 0;
+			mt.N1 = z1;
+			mt.N2 = z2;
+			mt.N3 = z3;
+			mt.N4 = z4;
+			nm->mymesh.push_back(mt);
+		}
+		else if (count == 6)
+		{
+			MMesh mt;
+			mt.V1 = x1;
+			mt.V2 = x2;
+			mt.V3 = x3;
+			mt.V4 = -1;
+			mt.T1 = 0;
+			mt.T2 = 0;
+			mt.T3 = 0;
+			mt.T4 = -1;
+			mt.N1 = z1;
+			mt.N2 = z2;
+			mt.N3 = z3;
+			mt.N4 = -1;
+			nm->mymesh.push_back(mt);
+		}
+		lines++;
 	}
 	fclose(fp);
+
+	float weight_center_x = (min_x + max_x ) / 2.0;
+	float weight_center_y = (min_y  + max_y) / 2.0;
+	float weight_center_z = (min_z + max_z) / 2.0;
+	float max_length = max((max_x - min_x), max((max_y - min_y), (max_z - min_z)));
+	float scale_calc = scale_factor / max_length;
+	for (Vertex& vt : nm->vertex) {
+		vt.X = (vt.X - weight_center_x) * scale_calc;
+		vt.Y = (vt.Y - weight_center_y) * scale_calc;
+		vt.Z = (vt.Z - weight_center_z) * scale_calc;
+	}
 
 	return nm;
 }
@@ -727,7 +799,7 @@ int main(int argc, char* argv[])
 	}
 	fclose(fpp);
 
-	models.push_back(load_model("Skull.obj", "Skull.jpg"));
+	models.push_back(load_model("models\\tv.obj", "models\\tv.png", 1.0));
 
 
 	InitializeWindow(argc, argv);

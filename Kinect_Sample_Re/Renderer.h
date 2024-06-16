@@ -28,6 +28,19 @@ struct Vertex{
 	int index_3;
 };
 
+struct Material {
+	string name;
+	float ns;
+	float ka;
+	float kd;
+	float ks;
+	float ke;
+	float ni;
+	float d;
+	float illum;
+	unsigned char* kd;
+};
+
 struct MMesh {
 	int V1;
 	int V2;
