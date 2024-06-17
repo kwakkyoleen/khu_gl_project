@@ -471,7 +471,36 @@ void display()
 				glLoadMatrixf(matrix);
 				glShadeModel(GL_SMOOTH);
 			}
+			// ke
+			// 에미션 적용인데 좀 이상함 이거
+			if (nm->material.at(mat_num)->eheight > 0 && true) {
+				glBindTexture(GL_TEXTURE_2D, nm->material.at(mat_num)->eid);
+				//glEnable(GL_BLEND);
+				//glBlendFunc(GL_ONE, GL_ONE); // Additive blending
+				if (mm.V4 > 0)
+					glBegin(GL_QUADS);
+				else
+					glBegin(GL_TRIANGLES);
+				if (mm.T1 > 0)
+					glTexCoord2d(nm->vertex_color.at(mm.T1 - 1).X, nm->vertex_color.at(mm.T1 - 1).Y);
+				glVertex3f(nm->vertex.at(mm.V1 - 1).X, nm->vertex.at(mm.V1 - 1).Y, nm->vertex.at(mm.V1 - 1).Z);
+				if (mm.T2 > 0)
+					glTexCoord2d(nm->vertex_color.at(mm.T2 - 1).X, nm->vertex_color.at(mm.T2 - 1).Y);
+				glVertex3f(nm->vertex.at(mm.V2 - 1).X, nm->vertex.at(mm.V2 - 1).Y, nm->vertex.at(mm.V2 - 1).Z);
+				if (mm.T3 > 0)
+					glTexCoord2d(nm->vertex_color.at(mm.T3 - 1).X, nm->vertex_color.at(mm.T3 - 1).Y);
+				glVertex3f(nm->vertex.at(mm.V3 - 1).X, nm->vertex.at(mm.V3 - 1).Y, nm->vertex.at(mm.V3 - 1).Z);
+				if (mm.V4 > 0) {
+					if (mm.T4 > 0)
+						glTexCoord2d(nm->vertex_color.at(mm.T4 - 1).X, nm->vertex_color.at(mm.T4 - 1).Y);
+					glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
+				}
+				//glDisable(GL_BLEND);
+				glEnd();
+			}
 			// kd
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			glBindTexture(GL_TEXTURE_2D, nm->material.at(mat_num)->did);
 			if (mm.V4 > 0)
 				glBegin(GL_QUADS);
@@ -492,34 +521,9 @@ void display()
 				glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
 			}
 			glEnd();
+			glDisable(GL_BLEND);
 
-			// ke
-			// 에미션 적용인데 좀 이상함 이거
-			if (nm->material.at(mat_num)->eheight > 0 && false) {
-				glBindTexture(GL_TEXTURE_2D, nm->material.at(mat_num)->eid);
-				glEnable(GL_BLEND);
-				glBlendFunc(GL_ONE, GL_ONE); // Additive blending
-				if (mm.V4 > 0)
-					glBegin(GL_QUADS);
-				else
-					glBegin(GL_TRIANGLES);
-				if (mm.T1 > 0)
-					glTexCoord2d(nm->vertex_color.at(mm.T1 - 1).X, nm->vertex_color.at(mm.T1 - 1).Y);
-				glVertex3f(nm->vertex.at(mm.V1 - 1).X, nm->vertex.at(mm.V1 - 1).Y, nm->vertex.at(mm.V1 - 1).Z);
-				if (mm.T2 > 0)
-					glTexCoord2d(nm->vertex_color.at(mm.T2 - 1).X, nm->vertex_color.at(mm.T2 - 1).Y);
-				glVertex3f(nm->vertex.at(mm.V2 - 1).X, nm->vertex.at(mm.V2 - 1).Y, nm->vertex.at(mm.V2 - 1).Z);
-				if (mm.T3 > 0)
-					glTexCoord2d(nm->vertex_color.at(mm.T3 - 1).X, nm->vertex_color.at(mm.T3 - 1).Y);
-				glVertex3f(nm->vertex.at(mm.V3 - 1).X, nm->vertex.at(mm.V3 - 1).Y, nm->vertex.at(mm.V3 - 1).Z);
-				if (mm.V4 > 0) {
-					if (mm.T4 > 0)
-						glTexCoord2d(nm->vertex_color.at(mm.T4 - 1).X, nm->vertex_color.at(mm.T4 - 1).Y);
-					glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
-				}
-				glDisable(GL_BLEND);
-				glEnd();
-			}
+			
 		}
 		//glEnd();
 
@@ -616,7 +620,7 @@ void model_t::translation(float a, float b, float c)
 	}
 }
 void model_t::rotation(const float t[]) {
-	float rad = t[3];
+	float rad = dtor(t[3]);
 	for (Vertex& v : vertex) {
 		if (t[0] > 0) {
 			float y = v.Y * cos(rad) - v.Z * sin(rad);
@@ -643,6 +647,55 @@ void model_t::rotation(float a, float b, float c, float r)
 {
 	float tf[4] = { a, b, c, r };
 	rotation(tf);
+}
+
+void model_t::rotation_a(const float t[]) {
+	float rad = dtor(t[3]);
+	float xm, ym, zm;
+	get_vertex_mean(xm, ym, zm);
+	for (Vertex& v : vertex) {
+		if (t[0] > 0) {
+			float y = (v.Y - ym) * cos(rad) - (v.Z - zm) * sin(rad);
+			float z = (v.Y - ym) * sin(rad) + (v.Z - zm) * cos(rad);
+			v.Y = y + ym;
+			v.Z = z + zm;
+		}
+		else if (t[1] > 0) {
+			float x = (v.X - xm) * cos(rad) - (v.Z - zm) * sin(rad);
+			float z = (v.X - xm) * sin(rad) + (v.Z - zm) * cos(rad);
+			v.X = x + xm;
+			v.Z = z + zm;
+		}
+		else if (t[2] > 0) {
+			float x = (v.X - xm) * cos(rad) - (v.Y - ym) * sin(rad);
+			float y = (v.X - xm) * sin(rad) + (v.Y - ym) * cos(rad);
+			v.X = x + xm;
+			v.Y = y + ym;
+		}
+	}
+}
+
+void model_t::rotation_a(float a, float b, float c, float r)
+{
+	float tf[4] = { a, b, c, r };
+	rotation_a(tf);
+}
+
+void model_t::get_vertex_mean(float& a, float& b, float& c)
+{
+	float min_x = 1000000, min_y = 1000000, min_z = 1000000;
+	float max_x = -1000000, max_y = -1000000, max_z = -1000000;
+	for (Vertex& v : vertex) {
+		min_x = min(min_x, v.X);
+		min_y = min(min_y, v.Y);
+		min_z = min(min_z, v.Z);
+		max_x = max(max_x, v.X);
+		max_y = max(max_y, v.Y);
+		max_z = max(max_z, v.Z);
+	}
+	a = (min_x + max_x) / 2.0;
+	b = (min_y + max_y) / 2.0;
+	c = (min_z + max_z) / 2.0;
 }
 
 
@@ -722,6 +775,11 @@ void replaceNewlineWithNull(char* str) {
 			str[i] = '\0';
 		}
 	}
+}
+
+
+double dtor(double degrees) {
+	return degrees * 3.141592653589793 / 180.0;
 }
 
 
@@ -979,25 +1037,41 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 }
 
 void load_models() {
-	/*auto tile = load_model("tile.obj", "models\\floor\\", 1.3);
-	tile->translation(0, -0.08, 0);
+	auto tile = load_model("tile.obj", "models\\floor\\", 1.3);
+	tile->translation(8.0, 0, 0);
 	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 5; j++) {
-			auto tile_temp = make_unique<model_t>(tile);
-			tile_temp->translation(i - 2.0f, 0, j - 2.0f);
-			models.push_back(move(tile_temp));
-		}
-	}*/
-	models.push_back(load_model("Echidna.obj", "models\\", 1.0));
+		auto tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(0, 0, i - 2.0f);
+		models.push_back(move(tile_temp));
+	}
+	auto tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -30);
+	tile_temp->translation(-0.31, 0, -2.85f);
+	models.push_back(move(tile_temp));
+	/*models.push_back(load_model("Echidna.obj", "models\\", 1.0));
 	auto kamen = load_model("Kamen.obj", "models\\Kamen\\", 1.0);
 	kamen->translation(1, 0, 0);
-	models.push_back(move(kamen));
+	models.push_back(move(kamen));*/
 	auto ground = load_model("ground_sim.obj", "models\\ground\\", 10);
 	ground->translation(0, -1.07, 0);
-	models.push_back(move(ground));
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 2; j++) {
+			auto ground_temp = make_unique<model_t>(ground);
+			ground_temp->translation(i * 9, 0, j*7-3.5);
+			models.push_back(move(ground_temp));
+		}
+	}
 
-	auto forutain = load_model("forutain.obj", "models\\forutain\\", 3);
-	forutain->translation(0, 0, 2);
+	auto tree1 = load_model("tree1.obj", "models\\tree1\\", 2);
+	tree1->translation(0, 0, -2.0);
+	for (int i = 0; i < 2; i++) {
+		auto tree1_temp = make_unique<model_t>(tree1);
+		tree1_temp->translation(i * 3, 0, 0);
+		models.push_back(move(tree1_temp));
+	}
+
+	auto forutain = load_model("forutain.obj", "models\\forutain\\", 2.3);
+	forutain->translation(-1, 0, 0);
 	models.push_back(move(forutain));
 
 }

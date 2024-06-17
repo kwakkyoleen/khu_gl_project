@@ -84,6 +84,9 @@ public :
 	void translation(float a, float b, float c);
 	void rotation(const float t[]);
 	void rotation(float a, float b, float c, float r);
+	void rotation_a(const float t[]);
+	void rotation_a(float a, float b, float c, float r);
+	void get_vertex_mean(float& a, float& b, float& c);
 
 	~model_t() {
 	}
@@ -193,3 +196,6 @@ void Setskt();
 
 //CameraSpacePoint m_SpacePoint[JointType::JointType_Count];
 void Track();
+
+
+double dtor(double degrees);
