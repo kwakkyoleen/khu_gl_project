@@ -47,6 +47,8 @@ public:
 	bool loadTexture(const char* filename);
 	bool loadEmission(const char* filename);
 	bool iskdefined();
+	GLuint did;
+	GLuint eid;
 	~Material() {
 		stbi_image_free(mkd);
 		if(ewidth > 0)

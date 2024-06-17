@@ -1,0 +1,52 @@
+# Blender 4.1.1 MTL File: 'forutain.blend'
+# www.blender.org
+
+newmtl Material_#2.001
+Ns 20.000006
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 1
+map_Kd textures/fountain_base_tex.png
+map_d textures/fountain_base_tex.png
+
+newmtl Material_#23.001
+Ns 20.000006
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 1
+map_Kd textures/fountain_shaft_water_posters_tex.png
+map_d textures/fountain_shaft_water_posters_tex.png
+
+newmtl Material_#3.001
+Ns 20.000006
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 1
+map_Kd textures/fountain_water_tex.png
+map_d textures/fountain_water_tex.png
+
+newmtl Material_#49.001
+Ns 20.000006
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 1
+map_Kd textures/fountain_small_waterfall_tex.png
+map_d textures/fountain_small_waterfall_tex.png
+
+newmtl Material_#50.001
+Ns 20.000006
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+illum 1
+map_Kd textures/watersplash_tex.png
+map_d textures/watersplash_tex.png
