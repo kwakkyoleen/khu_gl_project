@@ -433,11 +433,11 @@ void display()
 		{
 			if (mm.m != mat_num) {
 				mat_num = mm.m;
-				if (nm->material.at(mat_num).iskdefined()) {
-					glMaterialfv(GL_FRONT, GL_AMBIENT, nm->material.at(mat_num).ka);
-					glMaterialfv(GL_FRONT, GL_DIFFUSE, nm->material.at(mat_num).kd);
-					glMaterialfv(GL_FRONT, GL_SPECULAR, nm->material.at(mat_num).ks);
-					glMaterialf(GL_FRONT, GL_SHININESS, nm->material.at(mat_num).illum);
+				if (nm->material.at(mat_num)->iskdefined()) {
+					glMaterialfv(GL_FRONT, GL_AMBIENT, nm->material.at(mat_num)->ka);
+					glMaterialfv(GL_FRONT, GL_DIFFUSE, nm->material.at(mat_num)->kd);
+					glMaterialfv(GL_FRONT, GL_SPECULAR, nm->material.at(mat_num)->ks);
+					glMaterialf(GL_FRONT, GL_SHININESS, nm->material.at(mat_num)->illum);
 				}
 				else {
 					glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
@@ -445,9 +445,9 @@ void display()
 					glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
 					glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
 				}
-				GLenum format = (nm->material.at(mat_num).nrChannels == 4) ? GL_RGBA : GL_RGB;
-				glTexImage2D(GL_TEXTURE_2D, 0, format, nm->material.at(mat_num).width,
-					nm->material.at(mat_num).height, 0, format, GL_UNSIGNED_BYTE, nm->material.at(mat_num).mkd);
+				GLenum format = (nm->material.at(mat_num)->nrChannels == 4) ? GL_RGBA : GL_RGB;
+				glTexImage2D(GL_TEXTURE_2D, 0, format, nm->material.at(mat_num)->width,
+					nm->material.at(mat_num)->height, 0, format, GL_UNSIGNED_BYTE, nm->material.at(mat_num)->mkd);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -455,13 +455,14 @@ void display()
 				glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 				glEnable(GL_TEXTURE_2D);
 				float matrix[16] = {
-					nm->material.at(mat_num).ts_x, 0.0f, 0.0f, 0.0f,
-					0.0f, nm->material.at(mat_num).ts_y, 0.0f, 0.0f,
+					nm->material.at(mat_num)->ts_x, 0.0f, 0.0f, 0.0f,
+					0.0f, nm->material.at(mat_num)->ts_y, 0.0f, 0.0f,
 					0.0f, 0.0f, 1.0f, 0.0f,
 					0.0f, 0.0f, 0.0f, 1.0f
 						};
 				glMatrixMode(GL_TEXTURE);
 				glLoadMatrixf(matrix);
+				glShadeModel(GL_SMOOTH);
 			}
 			if (mm.V4 > 0)
 				glBegin(GL_QUADS);
@@ -569,6 +570,14 @@ void model_t::translation(const float t[]) {
 		v.Z += t[2];
 	}
 }
+void model_t::translation(float a, float b, float c)
+{
+	for (Vertex& v : vertex) {
+		v.X += a;
+		v.Y += b;
+		v.Z += c;
+	}
+}
 void model_t::rotation(const float t[]) {
 	float rad = t[3];
 	for (Vertex& v : vertex) {
@@ -593,34 +602,12 @@ void model_t::rotation(const float t[]) {
 	}
 }
 
-bool model_t::loadTexture(const char* filename) {
-	// 이미지 로딩
-	texels = stbi_load(filename, &width, &height, &nrChannels, 0);
-	if (!texels) {
-		std::cerr << "Failed to load texture: " << filename << std::endl;
-		return false;
-	}
-	//// 텍스처 생성
-	//GLuint textureID;
-	//glGenTextures(1, &textureID);
-	//glBindTexture(GL_TEXTURE_2D, textureID);
-
-	//// 텍스처 매개변수 설정
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	//// 텍스처 이미지 로드
-	//GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
-	//glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-	//glGenerateMipmap(GL_TEXTURE_2D);
-
-	//// 이미지 메모리 해제
-	//stbi_image_free(data);
-
-	return true;
+void model_t::rotation(float a, float b, float c, float r)
+{
+	float tf[4] = { a, b, c, r };
+	rotation(tf);
 }
+
 
 bool Material::loadTexture(const char* filename) {
 	// 이미지 로딩
@@ -691,67 +678,70 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 				//cout << bufferm;
 				count = sscanf(bufferm, "newmtl %s\n", buffers);
 				if (count == 1) {
-					nm->material.push_back(Material());
+					nm->material.push_back(make_shared<Material>());
 					mtx_idx++;
-					nm->material.at(mtx_idx).name.assign(buffers);
+					nm->material.at(mtx_idx)->name.assign(buffers);
 				}
 				count = sscanf(bufferm, "Ns %f\n", &x);
 				if (count == 1) {
-					nm->material.at(mtx_idx).ns = x;
+					nm->material.at(mtx_idx)->ns = x;
 				}
 				count = sscanf(bufferm, "Ka %f %f %f\n", &x, &y, &z);
 				if (count == 3) {
-					nm->material.at(mtx_idx).ka[0] = x;
-					nm->material.at(mtx_idx).ka[1] = y;
-					nm->material.at(mtx_idx).ka[2] = z;
-					nm->material.at(mtx_idx).ka[3] = 1;
+					nm->material.at(mtx_idx)->ka[0] = x;
+					nm->material.at(mtx_idx)->ka[1] = y;
+					nm->material.at(mtx_idx)->ka[2] = z;
+					nm->material.at(mtx_idx)->ka[3] = 1;
 				}
 				count = sscanf(bufferm, "Kd %f %f %f\n", &x, &y, &z);
 				if (count == 3) {
-					nm->material.at(mtx_idx).kd[0] = x;
-					nm->material.at(mtx_idx).kd[1] = y;
-					nm->material.at(mtx_idx).kd[2] = z;
-					nm->material.at(mtx_idx).kd[3] = 1;
+					nm->material.at(mtx_idx)->kd[0] = x;
+					nm->material.at(mtx_idx)->kd[1] = y;
+					nm->material.at(mtx_idx)->kd[2] = z;
+					nm->material.at(mtx_idx)->kd[3] = 1;
 				}
 				count = sscanf(bufferm, "Ks %f %f %f\n", &x, &y, &z);
 				if (count == 3) {
-					nm->material.at(mtx_idx).ks[0] = x;
-					nm->material.at(mtx_idx).ks[1] = y;
-					nm->material.at(mtx_idx).ks[2] = z;
-					nm->material.at(mtx_idx).ks[3] = 1;
+					nm->material.at(mtx_idx)->ks[0] = x;
+					nm->material.at(mtx_idx)->ks[1] = y;
+					nm->material.at(mtx_idx)->ks[2] = z;
+					nm->material.at(mtx_idx)->ks[3] = 1;
 				}
 				count = sscanf(bufferm, "Ke %f %f %f\n", &x, &y, &z);
 				if (count == 3) {
-					nm->material.at(mtx_idx).ke[0] = x;
-					nm->material.at(mtx_idx).ke[1] = y;
-					nm->material.at(mtx_idx).ke[2] = z;
-					nm->material.at(mtx_idx).ke[3] = 1;
+					nm->material.at(mtx_idx)->ke[0] = x;
+					nm->material.at(mtx_idx)->ke[1] = y;
+					nm->material.at(mtx_idx)->ke[2] = z;
+					nm->material.at(mtx_idx)->ke[3] = 1;
 				}
 				count = sscanf(bufferm, "Ni %f\n", &x);
 				if (count == 1) {
-					nm->material.at(mtx_idx).ni = x;
+					nm->material.at(mtx_idx)->ni = x;
 				}
 				count = sscanf(bufferm, "d %f\n", &x);
 				if (count == 1) {
-					nm->material.at(mtx_idx).d = x;
-				}
-				count = sscanf(bufferm, "map_Kd %s\n", buffers);
-				if (count == 1) {
-					char mkdfilename[300];
-					strcpy(mkdfilename, modeldir.c_str());
-					strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
-					nm->material.at(mtx_idx).loadTexture(mkdfilename);
+					nm->material.at(mtx_idx)->d = x;
 				}
 				count = sscanf(bufferm, "map_Kd -s %d %d %d %s\n", &ix, &iy, &iz, buffers);
 				if (count == 4) {
 					char mkdfilename[300];
 					strcpy(mkdfilename, modeldir.c_str());
 					strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
-					nm->material.at(mtx_idx).loadTexture(mkdfilename);
-					nm->material.at(mtx_idx).ts_x = ix;
-					nm->material.at(mtx_idx).ts_y = iy;
-					nm->material.at(mtx_idx).ts_z = iz;
+					nm->material.at(mtx_idx)->loadTexture(mkdfilename);
+					nm->material.at(mtx_idx)->ts_x = ix;
+					nm->material.at(mtx_idx)->ts_y = iy;
+					nm->material.at(mtx_idx)->ts_z = iz;
 				}
+				else {
+					count = sscanf(bufferm, "map_Kd %s\n", buffers);
+					if (count == 1) {
+						char mkdfilename[300];
+						strcpy(mkdfilename, modeldir.c_str());
+						strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
+						nm->material.at(mtx_idx)->loadTexture(mkdfilename);
+					}
+				}
+				
 			}
 		}
 		count = sscanf(buffer, "v %f %f %f", &x, &y, &z);
@@ -784,7 +774,7 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 		{
 			string temp_material_name(buffers);
 			for (int k = 0; k < nm->material.size(); k++) {
-				if (nm->material.at(k).name == temp_material_name)
+				if (nm->material.at(k)->name == temp_material_name)
 					material_num = k;
 			}
 		}
@@ -896,19 +886,30 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 	return nm;
 }
 
+void load_models() {
+	/*auto tile = load_model("tile.obj", "models\\floor\\", 1.3);
+	tile->translation(0, -0.08, 0);
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			auto tile_temp = make_unique<model_t>(tile);
+			tile_temp->translation(i - 2.0f, 0, j - 2.0f);
+			models.push_back(move(tile_temp));
+		}
+	}*/
+	models.push_back(load_model("Echidna.obj", "models\\", 1.0));
+	auto ground = load_model("ground_sim.obj", "models\\ground\\", 10);
+	ground->translation(0, -1.07, 0);
+	models.push_back(move(ground));
+	
+}
+
 int main(int argc, char* argv[])
 {
 	vertex = new Vertex[100000];
 	vertex_color = new Vertex[100000];
 	mymesh = new MMesh[100000];
 
-	models.push_back(load_model("Echidna.obj", "models\\", 1.0));
-	//models.push_back(load_model("tv.obj", "models\\", 1.0));
-	models.push_back(load_model("tile.obj", "models\\floor\\", 1.0));
-	float tempf[4] = { 1, 0, 0, 1 };
-	models.at(0)->translation(tempf);
-	//models.at(0)->rotation(tempf);
-
+	load_models();
 
 	InitializeWindow(argc, argv);
 

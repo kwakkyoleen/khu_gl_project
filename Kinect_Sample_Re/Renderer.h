@@ -44,6 +44,9 @@ public:
 	int ts_x = 1, ts_y = 1, ts_z = 1; // texture scale
 	bool loadTexture(const char* filename);
 	bool iskdefined();
+	~Material() {
+		stbi_image_free(mkd);
+	}
 };
 
 struct MMesh {
@@ -67,22 +70,26 @@ public :
 	vector<Vertex> vertex;
 	vector<Vertex> vertex_color;
 	vector<MMesh> mymesh;
-	vector<Material> material;
-	int polygon_type; //3 or 4
+	vector<shared_ptr<Material>> material;
 	float zmin = 100000;
 	float zmax = -100000;
-	int width, height, nrChannels;
-	unsigned char* texels;
-	bool loadTexture(const char* filename);
 	void translation(const float t[]);
+	void translation(float a, float b, float c);
 	void rotation(const float t[]);
+	void rotation(float a, float b, float c, float r);
 
 	~model_t() {
-		stbi_image_free(texels);
-		for (Material m : material) {
-			stbi_image_free(m.mkd);
-		}
 	}
+	model_t() {}
+	model_t(const unique_ptr<model_t>& other) {
+		vertex.assign(other->vertex.begin(), other->vertex.end());
+		vertex_color.assign(other->vertex_color.begin(), other->vertex_color.end());
+		mymesh.assign(other->mymesh.begin(), other->mymesh.end());
+		material.assign(other->material.begin(), other->material.end());
+		zmin = other->zmin;
+		zmax = other->zmax;
+	}
+
 };
 
 // variables for GUI
