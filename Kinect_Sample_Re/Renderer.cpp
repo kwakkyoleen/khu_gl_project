@@ -403,7 +403,7 @@ void display()
 	//빨간색 플라스틱과 유사한 재질을 다음과 같이 정의
 	GLfloat mat_ambient[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 	GLfloat mat_diffuse[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
-	GLfloat mat_specular[4] = { 0.8f, 0.6f, 0.6f, 1.0f };
+	GLfloat mat_specular[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
 	GLfloat mat_emission[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
 	GLfloat mat_shininess = 32.0;
 
@@ -654,13 +654,10 @@ bool Material::loadTexture(const char* filename) {
 		return false;
 	}
 	glGenTextures(1, &did);
-	if (did == 28) {
-		cout << "28";
-	}
 	glBindTexture(GL_TEXTURE_2D, did);
 	GLint format;
 	if (nrChannels == 1) {
-		format = GL_RED;
+		format = GL_LUMINANCE;
 	}
 	else if (nrChannels == 3) {
 		format = GL_RGB;
