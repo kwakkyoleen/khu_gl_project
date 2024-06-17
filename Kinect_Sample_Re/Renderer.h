@@ -31,6 +31,7 @@ struct Vertex{
 class Material {
 public:
 	unsigned char* mkd;
+	unsigned char* mke;
 	string name;
 	float ns;
 	GLfloat ka[4] = {0.0f,0.0f,0.0f,1.0f};
@@ -40,12 +41,16 @@ public:
 	float ni = 0;
 	float d = 0;
 	int illum = 0;
-	int width, height, nrChannels;
+	int width=0, height=0, nrChannels=0;
+	int ewidth=0, eheight=0, enrChannels=0;
 	int ts_x = 1, ts_y = 1, ts_z = 1; // texture scale
 	bool loadTexture(const char* filename);
+	bool loadEmission(const char* filename);
 	bool iskdefined();
 	~Material() {
 		stbi_image_free(mkd);
+		if(ewidth > 0)
+			stbi_image_free(mke);
 	}
 };
 

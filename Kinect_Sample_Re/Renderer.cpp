@@ -404,6 +404,7 @@ void display()
 	GLfloat mat_ambient[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 	GLfloat mat_diffuse[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
 	GLfloat mat_specular[4] = { 0.8f, 0.6f, 0.6f, 1.0f };
+	GLfloat mat_emission[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
 	GLfloat mat_shininess = 32.0;
 
 	//// 폴리곤의 앞면의 재질을 설정 
@@ -428,6 +429,8 @@ void display()
 	for (auto& nm : models) {
 		
 		int mat_num = -1;
+		GLuint did;
+		GLuint eid;
 
 		for (MMesh const &mm : nm->mymesh)
 		{
@@ -438,13 +441,20 @@ void display()
 					glMaterialfv(GL_FRONT, GL_DIFFUSE, nm->material.at(mat_num)->kd);
 					glMaterialfv(GL_FRONT, GL_SPECULAR, nm->material.at(mat_num)->ks);
 					glMaterialf(GL_FRONT, GL_SHININESS, nm->material.at(mat_num)->illum);
+					if(nm->material.at(mat_num)->eheight > 0)
+						glMaterialfv(GL_FRONT, GL_EMISSION, nm->material.at(mat_num)->ke);
 				}
 				else {
 					glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 					glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 					glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
 					glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
+					if (nm->material.at(mat_num)->eheight > 0)
+						glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
 				}
+				
+				glGenTextures(1, &did);
+				glBindTexture(GL_TEXTURE_2D, did);
 				GLenum format = (nm->material.at(mat_num)->nrChannels == 4) ? GL_RGBA : GL_RGB;
 				glTexImage2D(GL_TEXTURE_2D, 0, format, nm->material.at(mat_num)->width,
 					nm->material.at(mat_num)->height, 0, format, GL_UNSIGNED_BYTE, nm->material.at(mat_num)->mkd);
@@ -452,6 +462,27 @@ void display()
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+				if (nm->material.at(mat_num)->eheight > 0) {
+					glGenTextures(1, &eid);
+					glBindTexture(GL_TEXTURE_2D, eid);
+					format = (nm->material.at(mat_num)->enrChannels == 4) ? GL_RGBA : GL_RGB;
+					glTexImage2D(GL_TEXTURE_2D, 0, format, nm->material.at(mat_num)->ewidth,
+						nm->material.at(mat_num)->eheight, 0, format, GL_UNSIGNED_BYTE, nm->material.at(mat_num)->mke);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				}
+
+
+				/*GLenum format = (nm->material.at(mat_num)->nrChannels == 4) ? GL_RGBA : GL_RGB;
+				glTexImage2D(GL_TEXTURE_2D, 0, format, nm->material.at(mat_num)->width,
+					nm->material.at(mat_num)->height, 0, format, GL_UNSIGNED_BYTE, nm->material.at(mat_num)->mkd);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);*/
 				glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 				glEnable(GL_TEXTURE_2D);
 				float matrix[16] = {
@@ -464,6 +495,8 @@ void display()
 				glLoadMatrixf(matrix);
 				glShadeModel(GL_SMOOTH);
 			}
+			// kd
+			glBindTexture(GL_TEXTURE_2D, did);
 			if (mm.V4 > 0)
 				glBegin(GL_QUADS);
 			else
@@ -483,6 +516,33 @@ void display()
 				glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
 			}
 			glEnd();
+
+			// ke
+			if (nm->material.at(mat_num)->eheight > 0 && false) {
+				glBindTexture(GL_TEXTURE_2D, eid);
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_ONE, GL_ONE); // Additive blending
+				if (mm.V4 > 0)
+					glBegin(GL_QUADS);
+				else
+					glBegin(GL_TRIANGLES);
+				if (mm.T1 > 0)
+					glTexCoord2d(nm->vertex_color.at(mm.T1 - 1).X, nm->vertex_color.at(mm.T1 - 1).Y);
+				glVertex3f(nm->vertex.at(mm.V1 - 1).X, nm->vertex.at(mm.V1 - 1).Y, nm->vertex.at(mm.V1 - 1).Z);
+				if (mm.T2 > 0)
+					glTexCoord2d(nm->vertex_color.at(mm.T2 - 1).X, nm->vertex_color.at(mm.T2 - 1).Y);
+				glVertex3f(nm->vertex.at(mm.V2 - 1).X, nm->vertex.at(mm.V2 - 1).Y, nm->vertex.at(mm.V2 - 1).Z);
+				if (mm.T3 > 0)
+					glTexCoord2d(nm->vertex_color.at(mm.T3 - 1).X, nm->vertex_color.at(mm.T3 - 1).Y);
+				glVertex3f(nm->vertex.at(mm.V3 - 1).X, nm->vertex.at(mm.V3 - 1).Y, nm->vertex.at(mm.V3 - 1).Z);
+				if (mm.V4 > 0) {
+					if (mm.T4 > 0)
+						glTexCoord2d(nm->vertex_color.at(mm.T4 - 1).X, nm->vertex_color.at(mm.T4 - 1).Y);
+					glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
+				}
+				glDisable(GL_BLEND);
+				glEnd();
+			}
 		}
 		//glEnd();
 		
@@ -619,6 +679,16 @@ bool Material::loadTexture(const char* filename) {
 	return true;
 }
 
+bool Material::loadEmission(const char* filename)
+{
+	mke = stbi_load(filename, &ewidth, &eheight, &enrChannels, 0);
+	if (!mkd) {
+		std::cerr << "Failed to load texture: " << filename << std::endl;
+		return false;
+	}
+	return true;
+}
+
 bool Material::iskdefined()
 {
 	bool correct = false;
@@ -740,6 +810,13 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 						strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
 						nm->material.at(mtx_idx)->loadTexture(mkdfilename);
 					}
+				}
+				count = sscanf(bufferm, "map_Ke %s\n", buffers);
+				if (count == 1) {
+					char mkefilename[300];
+					strcpy(mkefilename, modeldir.c_str());
+					strcat_s(mkefilename, sizeof(mkefilename), buffers);
+					nm->material.at(mtx_idx)->loadEmission(mkefilename);
 				}
 				
 			}
@@ -897,9 +974,12 @@ void load_models() {
 		}
 	}*/
 	models.push_back(load_model("Echidna.obj", "models\\", 1.0));
-	auto ground = load_model("ground_sim.obj", "models\\ground\\", 10);
+	auto kamen = load_model("Kamen.obj", "models\\Kamen\\", 1.0);
+	kamen->translation(1, 0, 0);
+	models.push_back(move(kamen));
+	/*auto ground = load_model("ground_sim.obj", "models\\ground\\", 10);
 	ground->translation(0, -1.07, 0);
-	models.push_back(move(ground));
+	models.push_back(move(ground));*/
 	
 }
 
