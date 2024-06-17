@@ -41,6 +41,7 @@ public:
 	float d = 0;
 	int illum = 0;
 	int width, height, nrChannels;
+	int ts_x = 1, ts_y = 1, ts_z = 1; // texture scale
 	bool loadTexture(const char* filename);
 	bool iskdefined();
 };

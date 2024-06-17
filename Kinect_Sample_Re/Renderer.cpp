@@ -454,6 +454,14 @@ void display()
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 				glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 				glEnable(GL_TEXTURE_2D);
+				float matrix[16] = {
+					nm->material.at(mat_num).ts_x, 0.0f, 0.0f, 0.0f,
+					0.0f, nm->material.at(mat_num).ts_y, 0.0f, 0.0f,
+					0.0f, 0.0f, 1.0f, 0.0f,
+					0.0f, 0.0f, 0.0f, 1.0f
+						};
+				glMatrixMode(GL_TEXTURE);
+				glLoadMatrixf(matrix);
 			}
 			if (mm.V4 > 0)
 				glBegin(GL_QUADS);
@@ -651,6 +659,7 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 	int num = 0;
 	char ch;
 	float x, y, z;
+	int ix, iy, iz;
 	float max_x = -100000, min_x = 100000, max_y = -100000, min_y = 100000, max_z = -100000, min_z = 100000;
 	float x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4;
 	bool start_flag = true;
@@ -661,6 +670,8 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 	string fullobjdir = modeldir + objname;
 	FILE* fp;
 	fp = fopen(fullobjdir.c_str(), "r");
+	if (fp == 0)
+		return nm;
 	int lines = 0;
 	int material_num = -1;
 	while (fgets(buffer, sizeof(buffer), fp))
@@ -730,6 +741,16 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 					strcpy(mkdfilename, modeldir.c_str());
 					strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
 					nm->material.at(mtx_idx).loadTexture(mkdfilename);
+				}
+				count = sscanf(bufferm, "map_Kd -s %d %d %d %s\n", &ix, &iy, &iz, buffers);
+				if (count == 4) {
+					char mkdfilename[300];
+					strcpy(mkdfilename, modeldir.c_str());
+					strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
+					nm->material.at(mtx_idx).loadTexture(mkdfilename);
+					nm->material.at(mtx_idx).ts_x = ix;
+					nm->material.at(mtx_idx).ts_y = iy;
+					nm->material.at(mtx_idx).ts_z = iz;
 				}
 			}
 		}
@@ -868,8 +889,8 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 	float scale_calc = scale_factor / max_length;
 	for (Vertex& vt : nm->vertex) {
 		vt.X = (vt.X - weight_center_x) * scale_calc;
-		vt.Y = (vt.Y - weight_center_y) * scale_calc;
-		vt.Z = (vt.Z - weight_center_z) * scale_calc;
+		vt.Y = (vt.Y - min_y) * scale_calc;
+		vt.Z = (vt.Z - weight_center_z) * scale_calc;// z는 바닥을 기준으로
 	}
 
 	return nm;
@@ -881,9 +902,9 @@ int main(int argc, char* argv[])
 	vertex_color = new Vertex[100000];
 	mymesh = new MMesh[100000];
 
-	models.push_back(load_model("Echidna.obj", "models\\", 2.0));
-	models.push_back(load_model("tv.obj", "models\\", 1.0));
-	models.push_back(load_model("church floor.obj", "models\\floor\\", 10.0));
+	models.push_back(load_model("Echidna.obj", "models\\", 1.0));
+	//models.push_back(load_model("tv.obj", "models\\", 1.0));
+	models.push_back(load_model("tile.obj", "models\\floor\\", 1.0));
 	float tempf[4] = { 1, 0, 0, 1 };
 	models.at(0)->translation(tempf);
 	//models.at(0)->rotation(tempf);
