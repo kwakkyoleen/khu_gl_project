@@ -332,7 +332,7 @@ void InitializeWindow(int argc, char* argv[])
 	glutInit(&argc, argv);
 
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);
-	glutInitWindowSize(1000 / 2, 1000 / 2);
+	glutInitWindowSize(2000 / 2, 2000 / 2);
 
 	glutInitWindowPosition(0, 0);
 
@@ -385,8 +385,8 @@ void display()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	GLfloat diffuse0[4] = { 0.5, 0.5, 0.5, 1.0 };
-	GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 1.0 };
-	//GLfloat ambient0[4] = { 1.0, 1.0, 1.0, 1.0 };
+	//GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 1.0 };
+	GLfloat ambient0[4] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat specular0[4] = { 0.5, 0.5, 0.5, 1.0 };
 	GLfloat emission0[4] = { 0.3, 0.3, 0.3, 1.0 };
 	GLfloat light0_pos[4] = { 2.0, 2.0, 2.0, 1.0 };
@@ -1043,7 +1043,10 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 	return nm;
 }
 
-void load_models() {
+void load_tile() {
+	auto tilec = load_model("tilec.obj", "models\\floor\\", 6);
+	tilec->translation(0, -0.03, 0);
+	models.push_back(move(tilec));
 	auto tile = load_model("tile.obj", "models\\floor\\", 1.3);
 	tile->translation(8.0, 0, 0);
 	for (int i = 0; i < 5; i++) {
@@ -1051,23 +1054,42 @@ void load_models() {
 		tile_temp->translation(0, 0, i - 2.0f);
 		models.push_back(move(tile_temp));
 	}
+	for (int i = 0; i < 10; i++) {
+		auto tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-i, 0, 0);
+		models.push_back(move(tile_temp));
+	}
 	auto tile_temp = make_unique<model_t>(tile);
 	tile_temp->rotation_a(0, 1, 0, -30);
 	tile_temp->translation(-0.31, 0, -2.85f);
 	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, 30);
+	tile_temp->translation(-0.31, 0, 2.85f);
+	models.push_back(move(tile_temp));
 
-	//models.push_back(load_model("Echidna.obj", "models\\", 1.0));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -30);
+	tile_temp->translation(-0.31, 0, -2.85f);
+	models.push_back(move(tile_temp));
+}
+
+void load_models() {
+	//타일 로드
+	load_tile();
+
+	/*models.push_back(load_model("Echidna.obj", "models\\", 1.0));
 	
 	auto kamen = load_model("Kamen.obj", "models\\Kamen\\", 1.0);
 	kamen->translation(1, 0, 0);
-	models.push_back(move(kamen));
+	models.push_back(move(kamen));*/
 
 	auto ground = load_model("ground_sim.obj", "models\\ground\\", 10);
-	ground->translation(0, -1.07, 0);
+	ground->translation(0, -1.1, 0);
 	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 2; j++) {
+		for (int j = 0; j < 4; j++) {
 			auto ground_temp = make_unique<model_t>(ground);
-			ground_temp->translation(i * 9, 0, j*7-3.5);
+			ground_temp->translation(i * 9, 0, j*7-10.5);
 			models.push_back(move(ground_temp));
 		}
 	}
@@ -1081,7 +1103,7 @@ void load_models() {
 	}
 
 	auto forutain = load_model("forutain.obj", "models\\forutain\\", 2.3);
-	forutain->translation(-1, 0, 0);
+	forutain->translation(0, 0.1, 0);
 	models.push_back(move(forutain));
 
 }

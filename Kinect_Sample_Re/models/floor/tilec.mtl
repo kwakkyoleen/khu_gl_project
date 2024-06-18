@@ -1,0 +1,13 @@
+# Blender 4.1.1 MTL File: 'tilec.blend'
+# www.blender.org
+
+newmtl 매테리얼
+Ns 39.999996
+Ka 0.100000 0.100000 0.100000
+Ks 0.200000 0.200000 0.200000
+Kd 0.800000 0.800000 0.800000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd -s 10 10 1 texture/tilec.jpg
