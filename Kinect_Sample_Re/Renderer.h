@@ -33,7 +33,7 @@ public:
 	unsigned char* mkd;
 	unsigned char* mke;
 	string name;
-	float ns;
+	float ns=1;
 	GLfloat ka[4] = {0.0f,0.0f,0.0f,1.0f};
 	GLfloat kd[4] = { 0.0f,0.0f,0.0f,1.0f };
 	GLfloat ks[4] = { 0.0f,0.0f,0.0f,1.0f };

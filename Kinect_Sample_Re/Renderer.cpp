@@ -384,15 +384,18 @@ void display()
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	GLfloat diffuse0[4] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat ambient0[4] = { 0.5, 0.5, 0.5, 1.0 };
-	GLfloat specular0[4] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat diffuse0[4] = { 0.5, 0.5, 0.5, 1.0 };
+	GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 1.0 };
+	//GLfloat ambient0[4] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat specular0[4] = { 0.5, 0.5, 0.5, 1.0 };
+	GLfloat emission0[4] = { 0.3, 0.3, 0.3, 1.0 };
 	GLfloat light0_pos[4] = { 2.0, 2.0, 2.0, 1.0 };
 
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse0);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specular0);
+	//glLightfv(GL_LIGHT0, GL_EMISSION, emission0);
 
 
 	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
@@ -404,7 +407,7 @@ void display()
 	GLfloat mat_ambient[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 	GLfloat mat_diffuse[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
 	GLfloat mat_specular[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
-	GLfloat mat_emission[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
+	GLfloat mat_emission[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	GLfloat mat_shininess = 32.0;
 
 	//// 폴리곤의 앞면의 재질을 설정 
@@ -438,7 +441,7 @@ void display()
 					glMaterialfv(GL_FRONT, GL_AMBIENT, nm->material.at(mat_num)->ka);
 					glMaterialfv(GL_FRONT, GL_DIFFUSE, nm->material.at(mat_num)->kd);
 					glMaterialfv(GL_FRONT, GL_SPECULAR, nm->material.at(mat_num)->ks);
-					glMaterialf(GL_FRONT, GL_SHININESS, nm->material.at(mat_num)->illum);
+					glMaterialf(GL_FRONT, GL_SHININESS, nm->material.at(mat_num)->ns);
 					if (nm->material.at(mat_num)->eheight > 0)
 						glMaterialfv(GL_FRONT, GL_EMISSION, nm->material.at(mat_num)->ke);
 				}
@@ -477,6 +480,7 @@ void display()
 				glBindTexture(GL_TEXTURE_2D, nm->material.at(mat_num)->eid);
 				//glEnable(GL_BLEND);
 				//glBlendFunc(GL_ONE, GL_ONE); // Additive blending
+				glDisable(GL_LIGHTING);
 				if (mm.V4 > 0)
 					glBegin(GL_QUADS);
 				else
@@ -491,12 +495,14 @@ void display()
 					glTexCoord2d(nm->vertex_color.at(mm.T3 - 1).X, nm->vertex_color.at(mm.T3 - 1).Y);
 				glVertex3f(nm->vertex.at(mm.V3 - 1).X, nm->vertex.at(mm.V3 - 1).Y, nm->vertex.at(mm.V3 - 1).Z);
 				if (mm.V4 > 0) {
-					if (mm.T4 > 0)
+					if (mm.T4 > 0) {
 						glTexCoord2d(nm->vertex_color.at(mm.T4 - 1).X, nm->vertex_color.at(mm.T4 - 1).Y);
-					glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
+						glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
+					}
 				}
 				//glDisable(GL_BLEND);
 				glEnd();
+				glEnable(GL_LIGHTING);
 			}
 			// kd
 			glEnable(GL_BLEND);
@@ -516,9 +522,10 @@ void display()
 				glTexCoord2d(nm->vertex_color.at(mm.T3 - 1).X, nm->vertex_color.at(mm.T3 - 1).Y);
 			glVertex3f(nm->vertex.at(mm.V3 - 1).X, nm->vertex.at(mm.V3 - 1).Y, nm->vertex.at(mm.V3 - 1).Z);
 			if (mm.V4 > 0) {
-				if (mm.T4 > 0)
+				if (mm.T4 > 0) {
 					glTexCoord2d(nm->vertex_color.at(mm.T4 - 1).X, nm->vertex_color.at(mm.T4 - 1).Y);
-				glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
+					glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
+				}
 			}
 			glEnd();
 			glDisable(GL_BLEND);
@@ -1048,10 +1055,13 @@ void load_models() {
 	tile_temp->rotation_a(0, 1, 0, -30);
 	tile_temp->translation(-0.31, 0, -2.85f);
 	models.push_back(move(tile_temp));
-	/*models.push_back(load_model("Echidna.obj", "models\\", 1.0));
+
+	//models.push_back(load_model("Echidna.obj", "models\\", 1.0));
+	
 	auto kamen = load_model("Kamen.obj", "models\\Kamen\\", 1.0);
 	kamen->translation(1, 0, 0);
-	models.push_back(move(kamen));*/
+	models.push_back(move(kamen));
+
 	auto ground = load_model("ground_sim.obj", "models\\ground\\", 10);
 	ground->translation(0, -1.07, 0);
 	for (int i = 0; i < 2; i++) {
