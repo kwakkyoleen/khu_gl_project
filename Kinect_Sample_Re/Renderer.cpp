@@ -1060,18 +1060,87 @@ void load_tile() {
 		models.push_back(move(tile_temp));
 	}
 	auto tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, -30);
-	tile_temp->translation(-0.31, 0, -2.85f);
+	tile_temp->rotation_a(0, 1, 0, 15);
+	tile_temp->translation(0.11, 0, -2.95f);
 	models.push_back(move(tile_temp));
 	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, 30);
-	tile_temp->translation(-0.31, 0, 2.85f);
+	tile_temp->rotation_a(0, 1, 0, -15);
+	tile_temp->translation(0.11, 0, 2.95f);
 	models.push_back(move(tile_temp));
 
 	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, -30);
-	tile_temp->translation(-0.31, 0, -2.85f);
+	tile_temp->rotation_a(0, 1, 0, 15);
+	tile_temp->translation(0.37, 0, -3.95f);
 	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -15);
+	tile_temp->translation(0.37, 0, 3.95f);
+	models.push_back(move(tile_temp));
+
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, 15);
+	tile_temp->translation(0.63, 0, -4.95f);
+	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -15);
+	tile_temp->translation(0.63, 0, 4.95f);
+	models.push_back(move(tile_temp));
+	
+	for (int i = 0; i < 4; i++) {
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(0.76, 0, -5.95f - i);
+		models.push_back(move(tile_temp));
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(0.76, 0, 5.95f + i);
+		models.push_back(move(tile_temp));
+	}
+
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -25);
+	tile_temp->translation(0.56, 0, -9.85f);
+	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, 25);
+	tile_temp->translation(0.56, 0, 9.85f);
+	models.push_back(move(tile_temp));
+
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -45);
+	tile_temp->translation(0.06, 0, -10.55f);
+	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, 45);
+	tile_temp->translation(0.06, 0, 10.55f);
+	models.push_back(move(tile_temp));
+
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -45);
+	tile_temp->translation(-0.75, 0, -11.35f);
+	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, 45);
+	tile_temp->translation(-0.75, 0, 11.35f);
+	models.push_back(move(tile_temp));
+
+	for (int i = 0; i < 5; i++) {
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-1.4-i, 0, -11.65f);
+		models.push_back(move(tile_temp));
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-1.4-i, 0, 11.65f);
+		models.push_back(move(tile_temp));
+	}
+
+	for (int i = 0; i < 11; i++) {
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-5.4, 0, -10.65f+i);
+		models.push_back(move(tile_temp));
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-5.4, 0, 10.65f-i);
+		models.push_back(move(tile_temp));
+	}
+
+
 }
 
 void load_models() {
