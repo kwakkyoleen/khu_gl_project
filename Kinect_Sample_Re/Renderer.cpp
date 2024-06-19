@@ -432,35 +432,34 @@ void display()
 
 	glEnable(GL_TEXTURE_2D);
 	glBegin(GL_QUADS);*/
-	for (auto& nm : models) {
+	for (auto& nm : renders) {
 
 		int mat_num = -1;
-
-		for (MMesh const& mm : nm->mymesh)
+		for (MMesh const& mm : nm->mymesh())
 		{
 			if (mm.m != mat_num) {
 				mat_num = mm.m;
-				if (nm->material.at(mat_num)->iskdefined()) {
-					glMaterialfv(GL_FRONT, GL_AMBIENT, nm->material.at(mat_num)->ka);
-					glMaterialfv(GL_FRONT, GL_DIFFUSE, nm->material.at(mat_num)->kd);
-					glMaterialfv(GL_FRONT, GL_SPECULAR, nm->material.at(mat_num)->ks);
-					glMaterialf(GL_FRONT, GL_SHININESS, nm->material.at(mat_num)->ns);
-					if (nm->material.at(mat_num)->eheight > 0)
-						glMaterialfv(GL_FRONT, GL_EMISSION, nm->material.at(mat_num)->ke);
+				if (nm->material().at(mat_num)->iskdefined()) {
+					glMaterialfv(GL_FRONT, GL_AMBIENT, nm->material().at(mat_num)->ka);
+					glMaterialfv(GL_FRONT, GL_DIFFUSE, nm->material().at(mat_num)->kd);
+					glMaterialfv(GL_FRONT, GL_SPECULAR, nm->material().at(mat_num)->ks);
+					glMaterialf(GL_FRONT, GL_SHININESS, nm->material().at(mat_num)->ns);
+					if (nm->material().at(mat_num)->eheight > 0)
+						glMaterialfv(GL_FRONT, GL_EMISSION, nm->material().at(mat_num)->ke);
 				}
 				else {
 					glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 					glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 					glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
 					glMaterialf(GL_FRONT, GL_SHININESS, mat_shininess);
-					if (nm->material.at(mat_num)->eheight > 0)
+					if (nm->material().at(mat_num)->eheight > 0)
 						glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
 				}
 
 
-				/*GLenum format = (nm->material.at(mat_num)->nrChannels == 4) ? GL_RGBA : GL_RGB;
-				glTexImage2D(GL_TEXTURE_2D, 0, format, nm->material.at(mat_num)->width,
-					nm->material.at(mat_num)->height, 0, format, GL_UNSIGNED_BYTE, nm->material.at(mat_num)->mkd);
+				/*GLenum format = (nm->material().at(mat_num)->nrChannels == 4) ? GL_RGBA : GL_RGB;
+				glTexImage2D(GL_TEXTURE_2D, 0, format, nm->material().at(mat_num)->width,
+					nm->material().at(mat_num)->height, 0, format, GL_UNSIGNED_BYTE, nm->material().at(mat_num)->mkd);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -468,8 +467,8 @@ void display()
 				glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 				glEnable(GL_TEXTURE_2D);
 				float matrix[16] = {
-					nm->material.at(mat_num)->ts_x, 0.0f, 0.0f, 0.0f,
-					0.0f, nm->material.at(mat_num)->ts_y, 0.0f, 0.0f,
+					nm->material().at(mat_num)->ts_x, 0.0f, 0.0f, 0.0f,
+					0.0f, nm->material().at(mat_num)->ts_y, 0.0f, 0.0f,
 					0.0f, 0.0f, 1.0f, 0.0f,
 					0.0f, 0.0f, 0.0f, 1.0f
 				};
@@ -479,8 +478,8 @@ void display()
 			}
 			// ke
 			// 에미션 적용인데 좀 이상함 이거
-			if (nm->material.at(mat_num)->eheight > 0 && true) {
-				glBindTexture(GL_TEXTURE_2D, nm->material.at(mat_num)->eid);
+			if (nm->material().at(mat_num)->eheight > 0 && true) {
+				glBindTexture(GL_TEXTURE_2D, nm->material().at(mat_num)->eid);
 				//glEnable(GL_BLEND);
 				//glBlendFunc(GL_ONE, GL_ONE); // Additive blending
 				glDisable(GL_LIGHTING);
@@ -489,18 +488,18 @@ void display()
 				else
 					glBegin(GL_TRIANGLES);
 				if (mm.T1 > 0)
-					glTexCoord2d(nm->vertex_color.at(mm.T1 - 1).X, nm->vertex_color.at(mm.T1 - 1).Y);
-				glVertex3f(nm->vertex.at(mm.V1 - 1).X, nm->vertex.at(mm.V1 - 1).Y, nm->vertex.at(mm.V1 - 1).Z);
+					glTexCoord2d(nm->vertex_color().at(mm.T1 - 1).X, nm->vertex_color().at(mm.T1 - 1).Y);
+				glVertex3f(nm->vertex(mm.V1 - 1).X, nm->vertex(mm.V1 - 1).Y, nm->vertex(mm.V1 - 1).Z);
 				if (mm.T2 > 0)
-					glTexCoord2d(nm->vertex_color.at(mm.T2 - 1).X, nm->vertex_color.at(mm.T2 - 1).Y);
-				glVertex3f(nm->vertex.at(mm.V2 - 1).X, nm->vertex.at(mm.V2 - 1).Y, nm->vertex.at(mm.V2 - 1).Z);
+					glTexCoord2d(nm->vertex_color().at(mm.T2 - 1).X, nm->vertex_color().at(mm.T2 - 1).Y);
+				glVertex3f(nm->vertex(mm.V2 - 1).X, nm->vertex(mm.V2 - 1).Y, nm->vertex(mm.V2 - 1).Z);
 				if (mm.T3 > 0)
-					glTexCoord2d(nm->vertex_color.at(mm.T3 - 1).X, nm->vertex_color.at(mm.T3 - 1).Y);
-				glVertex3f(nm->vertex.at(mm.V3 - 1).X, nm->vertex.at(mm.V3 - 1).Y, nm->vertex.at(mm.V3 - 1).Z);
+					glTexCoord2d(nm->vertex_color().at(mm.T3 - 1).X, nm->vertex_color().at(mm.T3 - 1).Y);
+				glVertex3f(nm->vertex(mm.V3 - 1).X, nm->vertex(mm.V3 - 1).Y, nm->vertex(mm.V3 - 1).Z);
 				if (mm.V4 > 0) {
 					if (mm.T4 > 0) {
-						glTexCoord2d(nm->vertex_color.at(mm.T4 - 1).X, nm->vertex_color.at(mm.T4 - 1).Y);
-						glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
+						glTexCoord2d(nm->vertex_color().at(mm.T4 - 1).X, nm->vertex_color().at(mm.T4 - 1).Y);
+						glVertex3f(nm->vertex(mm.V4 - 1).X, nm->vertex(mm.V4 - 1).Y, nm->vertex(mm.V4 - 1).Z);
 					}
 				}
 				//glDisable(GL_BLEND);
@@ -508,30 +507,37 @@ void display()
 				glEnable(GL_LIGHTING);
 			}
 			// kd
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glBindTexture(GL_TEXTURE_2D, nm->material.at(mat_num)->did);
+			if (nm->material().at(mat_num)->nrChannels == 4) {
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			}
+			glBindTexture(GL_TEXTURE_2D, nm->material().at(mat_num)->did);
 			if (mm.V4 > 0)
 				glBegin(GL_QUADS);
 			else
 				glBegin(GL_TRIANGLES);
+			//if (mat_num >= 0) {
+			//	//+ nm->material().at(mat_num)->texture_offset_x
+			//}
 			if (mm.T1 > 0)
-				glTexCoord2d(nm->vertex_color.at(mm.T1 - 1).X, nm->vertex_color.at(mm.T1 - 1).Y);
-			glVertex3f(nm->vertex.at(mm.V1 - 1).X, nm->vertex.at(mm.V1 - 1).Y, nm->vertex.at(mm.V1 - 1).Z);
+				glTexCoord2d(nm->vertex_color().at(mm.T1 - 1).X, nm->vertex_color().at(mm.T1 - 1).Y);
+			glVertex3f(nm->vertex(mm.V1 - 1).X, nm->vertex(mm.V1 - 1).Y, nm->vertex(mm.V1 - 1).Z);
 			if (mm.T2 > 0)
-				glTexCoord2d(nm->vertex_color.at(mm.T2 - 1).X, nm->vertex_color.at(mm.T2 - 1).Y);
-			glVertex3f(nm->vertex.at(mm.V2 - 1).X, nm->vertex.at(mm.V2 - 1).Y, nm->vertex.at(mm.V2 - 1).Z);
+				glTexCoord2d(nm->vertex_color().at(mm.T2 - 1).X, nm->vertex_color().at(mm.T2 - 1).Y);
+			glVertex3f(nm->vertex(mm.V2 - 1).X, nm->vertex(mm.V2 - 1).Y, nm->vertex(mm.V2 - 1).Z);
 			if (mm.T3 > 0)
-				glTexCoord2d(nm->vertex_color.at(mm.T3 - 1).X, nm->vertex_color.at(mm.T3 - 1).Y);
-			glVertex3f(nm->vertex.at(mm.V3 - 1).X, nm->vertex.at(mm.V3 - 1).Y, nm->vertex.at(mm.V3 - 1).Z);
+				glTexCoord2d(nm->vertex_color().at(mm.T3 - 1).X, nm->vertex_color().at(mm.T3 - 1).Y);
+			glVertex3f(nm->vertex(mm.V3 - 1).X, nm->vertex(mm.V3 - 1).Y, nm->vertex(mm.V3 - 1).Z);
 			if (mm.V4 > 0) {
 				if (mm.T4 > 0) {
-					glTexCoord2d(nm->vertex_color.at(mm.T4 - 1).X, nm->vertex_color.at(mm.T4 - 1).Y);
-					glVertex3f(nm->vertex.at(mm.V4 - 1).X, nm->vertex.at(mm.V4 - 1).Y, nm->vertex.at(mm.V4 - 1).Z);
+					glTexCoord2d(nm->vertex_color().at(mm.T4 - 1).X, nm->vertex_color().at(mm.T4 - 1).Y);
+					glVertex3f(nm->vertex(mm.V4 - 1).X, nm->vertex(mm.V4 - 1).Y, nm->vertex(mm.V4 - 1).Z);
 				}
 			}
+
 			glEnd();
-			glDisable(GL_BLEND);
+			if (nm->material().at(mat_num)->nrChannels == 4)
+				glDisable(GL_BLEND);
 
 			
 		}
@@ -793,8 +799,8 @@ double dtor(double degrees) {
 }
 
 
-unique_ptr<model_t> load_model(const string objname, const string modeldir, float scale_factor) {
-	auto nm = std::make_unique<model_t>();
+shared_ptr<model_t> load_model(const string objname, const string modeldir, float scale_factor) {
+	auto nm = std::make_shared<model_t>();
 	int count = 0;
 	int num = 0;
 	char ch;
@@ -874,6 +880,16 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 				count = sscanf(bufferm, "d %f\n", &x);
 				if (count == 1) {
 					nm->material.at(mtx_idx)->d = x;
+				}
+				count = sscanf(bufferm, "map_Kd -o %f %f %f %s\n", &x, &y, &z, buffers);
+				if (count == 4) {
+					char mkdfilename[300];
+					strcpy(mkdfilename, modeldir.c_str());
+					strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
+					nm->material.at(mtx_idx)->loadTexture(mkdfilename);
+					nm->material.at(mtx_idx)->texture_offset_x = x;
+					nm->material.at(mtx_idx)->texture_offset_y = y;
+					nm->material.at(mtx_idx)->texture_offset_z = z;
 				}
 				count = sscanf(bufferm, "map_Kd -s %d %d %d %s\n", &ix, &iy, &iz, buffers);
 				if (count == 4) {
@@ -1073,107 +1089,109 @@ vector<object_t> make_random_place(float min_x, float max_x, float min_z, float 
 
 void load_tile() {
 	auto tilec = load_model("tilec.obj", "models\\floor\\", 6);
-	tilec->translation(0, -0.03, 0);
-	tilec->rotation(0, 1, 0, -5);
+	auto tilecr = make_unique<render_t>(tilec);
+	tilecr->translation(0, -0.03, 0);
+	tilecr->rotation(0, 1, 0, -5);
 	models.push_back(move(tilec));
+	renders.push_back(move(tilecr));
 	auto tile = load_model("tile.obj", "models\\floor\\", 1.3);
 	tile->translation(8.0, 0, 0);
 	for (int i = 0; i < 5; i++) {
-		auto tile_temp = make_unique<model_t>(tile);
+		auto tile_temp = make_unique<render_t>(tile);
 		tile_temp->translation(0, 0, i - 2.0f);
-		models.push_back(move(tile_temp));
+		renders.push_back(move(tile_temp));
 	}
 	for (int i = 0; i < 15; i++) {
-		auto tile_temp = make_unique<model_t>(tile);
+		auto tile_temp = make_unique<render_t>(tile);
 		tile_temp->translation(5-i, 0, 0);
-		models.push_back(move(tile_temp));
+		renders.push_back(move(tile_temp));
 	}
-	auto tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, 15);
+	auto tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, 15);
 	tile_temp->translation(0.11, 0, -2.95f);
-	models.push_back(move(tile_temp));
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, -15);
+	renders.push_back(move(tile_temp));
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, -15);
 	tile_temp->translation(0.11, 0, 2.95f);
-	models.push_back(move(tile_temp));
+	renders.push_back(move(tile_temp));
 
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, 15);
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, 15);
 	tile_temp->translation(0.37, 0, -3.95f);
-	models.push_back(move(tile_temp));
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, -15);
+	renders.push_back(move(tile_temp));
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, -15);
 	tile_temp->translation(0.37, 0, 3.95f);
-	models.push_back(move(tile_temp));
+	renders.push_back(move(tile_temp));
 
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, 15);
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, 15);
 	tile_temp->translation(0.63, 0, -4.95f);
-	models.push_back(move(tile_temp));
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, -15);
+	renders.push_back(move(tile_temp));
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, -15);
 	tile_temp->translation(0.63, 0, 4.95f);
-	models.push_back(move(tile_temp));
+	renders.push_back(move(tile_temp));
 	
 	for (int i = 0; i < 4; i++) {
-		tile_temp = make_unique<model_t>(tile);
+		tile_temp = make_unique<render_t>(tile);
 		tile_temp->translation(0.76, 0, -5.95f - i);
-		models.push_back(move(tile_temp));
-		tile_temp = make_unique<model_t>(tile);
+		renders.push_back(move(tile_temp));
+		tile_temp = make_unique<render_t>(tile);
 		tile_temp->translation(0.76, 0, 5.95f + i);
-		models.push_back(move(tile_temp));
+		renders.push_back(move(tile_temp));
 	}
 
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, -25);
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, -25);
 	tile_temp->translation(0.56, 0, -9.85f);
-	models.push_back(move(tile_temp));
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, 25);
+	renders.push_back(move(tile_temp));
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, 25);
 	tile_temp->translation(0.56, 0, 9.85f);
-	models.push_back(move(tile_temp));
+	renders.push_back(move(tile_temp));
 
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, -45);
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, -45);
 	tile_temp->translation(0.06, 0, -10.55f);
-	models.push_back(move(tile_temp));
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, 45);
+	renders.push_back(move(tile_temp));
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, 45);
 	tile_temp->translation(0.06, 0, 10.55f);
-	models.push_back(move(tile_temp));
+	renders.push_back(move(tile_temp));
 
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, -45);
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, -45);
 	tile_temp->translation(-0.75, 0, -11.35f);
-	models.push_back(move(tile_temp));
-	tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, 45);
+	renders.push_back(move(tile_temp));
+	tile_temp = make_unique<render_t>(tile);
+	tile_temp->rotation(0, 1, 0, 45);
 	tile_temp->translation(-0.75, 0, 11.35f);
-	models.push_back(move(tile_temp));
+	renders.push_back(move(tile_temp));
 
 	for (int i = 0; i < 11; i++) {
-		tile_temp = make_unique<model_t>(tile);
+		tile_temp = make_unique<render_t>(tile);
 		tile_temp->translation(-1.4-i, 0, -11.65f);
-		models.push_back(move(tile_temp));
-		tile_temp = make_unique<model_t>(tile);
+		renders.push_back(move(tile_temp));
+		tile_temp = make_unique<render_t>(tile);
 		tile_temp->translation(-1.4-i, 0, 11.65f);
-		models.push_back(move(tile_temp));
+		renders.push_back(move(tile_temp));
 	}
 
 	for (int i = -3; i < 11; i++) {
-		tile_temp = make_unique<model_t>(tile);
+		tile_temp = make_unique<render_t>(tile);
 		tile_temp->translation(-5.4, 0, -10.65f+i);
-		models.push_back(move(tile_temp));
-		tile_temp = make_unique<model_t>(tile);
+		renders.push_back(move(tile_temp));
+		tile_temp = make_unique<render_t>(tile);
 		tile_temp->translation(-5.4, 0, 10.65f-i);
-		models.push_back(move(tile_temp));
+		renders.push_back(move(tile_temp));
 
-		tile_temp = make_unique<model_t>(tile);
+		tile_temp = make_unique<render_t>(tile);
 		tile_temp->translation(-11.4, 0, -10.65f + i);
-		models.push_back(move(tile_temp));
-		tile_temp = make_unique<model_t>(tile);
+		renders.push_back(move(tile_temp));
+		tile_temp = make_unique<render_t>(tile);
 		tile_temp->translation(-11.4, 0, 10.65f - i);
-		models.push_back(move(tile_temp));
+		renders.push_back(move(tile_temp));
 	}
 
 
@@ -1181,32 +1199,55 @@ void load_tile() {
 
 void load_bench() {
 	auto bench = load_model("bench.obj", "models\\bench\\", 1);
-	auto bench_temp = make_unique<model_t>(bench);
+	auto bench_temp = make_unique<render_t>(bench);
 	bench_temp->translation(9.3, 0, -3.5);
-	bench_temp->rotation_a(0, 1, 0, 105);
-	models.push_back(move(bench_temp));
-	bench_temp = make_unique<model_t>(bench);
+	bench_temp->rotation(0, 1, 0, 105);
+	renders.push_back(move(bench_temp));
+	bench_temp = make_unique<render_t>(bench);
 	bench_temp->translation(9.6, 0, -4.7);
-	bench_temp->rotation_a(0, 1, 0, 105);
-	models.push_back(move(bench_temp));
+	bench_temp->rotation(0, 1, 0, 105);
+	renders.push_back(move(bench_temp));
 }
 
 void load_tree() {
 	auto tree1 = load_model("tree1.obj", "models\\tree\\", 2);
 	auto tree2 = load_model("tree2.obj", "models\\tree\\", 2);
-	auto rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 14, 1, 0.5, 14523423);
-	unique_ptr<model_t> tree_temp;
+	auto tree3 = load_model("tree3.obj", "models\\tree\\", 2);
+	auto tree4 = load_model("tree4.obj", "models\\tree\\", 2);
+	auto tree5 = load_model("tree5.obj", "models\\tree\\", 2);
+	auto gress1 = load_model("gress1.obj", "models\\gress\\", 1);
+	auto rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 4, 4, 0.5, 14523423);
+	unique_ptr<render_t> object_temp;
 	for (const auto& p : rand_palace) {
 		if(p.c == 0)
-			tree_temp = make_unique<model_t>(tree1);
+			object_temp = make_unique<render_t>(tree1);
 		else if(p.c == 1)
-			tree_temp = make_unique<model_t>(tree2);
+			object_temp = make_unique<render_t>(tree2);
+		else if (p.c == 2)
+			object_temp = make_unique<render_t>(tree3);
+		else if (p.c == 3)
+			object_temp = make_unique<render_t>(tree4);
+		else if (p.c == 4)
+			object_temp = make_unique<render_t>(tree5);
 		else
-			tree_temp = make_unique<model_t>(tree1);
-		tree_temp->translation(p.x, 0, p.z);
-		tree_temp->rotation_a(0, 1, 0, p.r);
-		models.push_back(move(tree_temp));
+			object_temp = make_unique<render_t>(tree1);
+		object_temp->translation(p.x, 0.05, p.z);
+		object_temp->rotation(0, 1, 0, p.r);
+		renders.push_back(move(object_temp));
 	}
+
+	rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 4, 0, 0.5, 523421);
+	for (const auto& p : rand_palace) {
+		if (p.c == 0)
+			object_temp = make_unique<render_t>(gress1);
+		else
+			object_temp = make_unique<render_t>(gress1);
+		object_temp->translation(p.x, 0.05, p.z);
+		object_temp->rotation(0, 1, 0, p.r);
+		renders.push_back(move(object_temp));
+	}
+	//gress1->translation(5, 0.05, 2);
+	//models.push_back(move(gress1));
 }
 
 void load_models() {
@@ -1227,7 +1268,7 @@ void load_models() {
 	ground->translation(0, -1.1, 0);
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 4; j++) {
-			auto ground_temp = make_unique<model_t>(ground);
+			auto ground_temp = make_shared<model_t>(ground);
 			ground_temp->translation(i * 9, 0, j*7-10.5);
 			models.push_back(move(ground_temp));
 		}
@@ -1236,6 +1277,10 @@ void load_models() {
 	auto forutain = load_model("forutain.obj", "models\\forutain\\", 2.3);
 	forutain->translation(0, 0.1, 0);
 	models.push_back(move(forutain));
+
+	auto toilet = load_model("public_toilet_sim.obj", "models\\public_toilet\\", 3.5);
+	toilet->translation(5.5, 0.05, -9);
+	models.push_back(move(toilet));
 
 }
 
@@ -1255,4 +1300,66 @@ int main(int argc, char* argv[])
 	delete[] mymesh;
 	delete[] vertex_color;
 	return 0;
+}
+
+void render_t::translation(float a, float b, float c)
+{
+	Matrix ts_mtx_i = { {1,0,0,a},{0,1,0,b},{0,0,1,c},{0,0,0,1} };
+	ts_mtx = multiplyMatrices(ts_mtx_i, ts_mtx);
+}
+
+void render_t::rotation(float a, float b, float c, float r)
+{
+	float min_x = 1000000, min_y = 1000000, min_z = 1000000;
+	float max_x = -1000000, max_y = -1000000, max_z = -1000000;
+	Matrix ts_mtx_i(4, vector<float>(4, 0));
+	ts_mtx_i[0][3] = 1;
+	for (Vertex& v : origin->vertex) {
+		ts_mtx_i[0][0] = v.X; ts_mtx_i[0][1] = v.Y; ts_mtx_i[0][2] = v.Z;
+		Matrix rs = multiplyMatrices(ts_mtx, ts_mtx_i);
+		min_x = min(min_x, rs[0][0]);
+		min_y = min(min_y, rs[1][0]);
+		min_z = min(min_z, rs[2][0]);
+		max_x = max(max_x, rs[0][0]);
+		max_y = max(max_y, rs[1][0]);
+		max_z = max(max_z, rs[2][0]);
+	}
+	Matrix ts_mtx_t0 = { {1,0,0,-(min_x + max_x) / 2.0f}, {0,1,0,-(min_y + max_y) / 2.0f}, {0,0,1,-(min_z + max_z) / 2.0f}, {0,0,0,1} };
+	Matrix ts_mtx_t1 = { {1,0,0,(min_x + max_x) / 2.0f}, {0,1,0,(min_y + max_y) / 2.0f}, {0,0,1,(min_z + max_z) / 2.0f}, {0,0,0,1} };
+	Matrix ts_mtx_r = { {1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1} };
+	float rad = dtor(r);
+	if (a > 0) {
+		ts_mtx_r[1][1] = cos(rad);
+		ts_mtx_r[1][2] = -sin(rad);
+		ts_mtx_r[2][1] = sin(rad);
+		ts_mtx_r[2][2] = cos(rad);
+
+	}
+	else if (b > 0) {
+		ts_mtx_r[0][0] = cos(rad);
+		ts_mtx_r[0][2] = -sin(rad);
+		ts_mtx_r[2][0] = sin(rad);
+		ts_mtx_r[2][2] = cos(rad);
+	}
+	else if (c > 0) {
+		ts_mtx_r[0][0] = cos(rad);
+		ts_mtx_r[0][1] = -sin(rad);
+		ts_mtx_r[1][0] = sin(rad);
+		ts_mtx_r[1][1] = cos(rad);
+	}
+	ts_mtx = multiplyMatrices(ts_mtx_t1, multiplyMatrices(ts_mtx_r, multiplyMatrices(ts_mtx_t0, ts_mtx)));
+}
+
+void render_t::set_scale(float s)
+{
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			ts_mtx[i][j] *= s;
+		}
+	}
+}
+
+render_t::render_t(shared_ptr<model_t> origin_)
+{
+	origin = origin_;
 }

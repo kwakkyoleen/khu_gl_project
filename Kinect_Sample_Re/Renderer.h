@@ -20,6 +20,7 @@
 //#define STATIC_
 
 using namespace std;
+using Matrix = std::vector<std::vector<float>>;
 
 struct Vertex{
 	float X;
@@ -45,6 +46,7 @@ public:
 	int illum = 0;
 	int width=0, height=0, nrChannels=0;
 	int ewidth=0, eheight=0, enrChannels=0;
+	float texture_offset_x = 0, texture_offset_y = 0, texture_offset_z = 0;
 	int ts_x = 1, ts_y = 1, ts_z = 1; // texture scale
 	bool loadTexture(const char* filename);
 	bool loadEmission(const char* filename);
@@ -93,7 +95,7 @@ public :
 	~model_t() {
 	}
 	model_t() {}
-	model_t(const unique_ptr<model_t>& other) {
+	model_t(const shared_ptr<model_t>& other) {
 		vertex.assign(other->vertex.begin(), other->vertex.end());
 		vertex_color.assign(other->vertex_color.begin(), other->vertex_color.end());
 		mymesh.assign(other->mymesh.begin(), other->mymesh.end());
@@ -102,6 +104,60 @@ public :
 		zmax = other->zmax;
 	}
 
+};
+
+Matrix multiplyMatrices(const Matrix& A, const Matrix& B) {
+	// Check if the matrices can be multiplied
+	if (A[0].size() != B.size()) {
+		throw std::invalid_argument("Matrix dimensions do not allow multiplication");
+	}
+
+	size_t rowsA = A.size();
+	size_t colsA = A[0].size();
+	size_t colsB = B[0].size();
+
+	// Initialize the result matrix with zeros
+	Matrix result(rowsA, std::vector<float>(colsB, 0));
+
+	// Perform matrix multiplication
+	for (size_t i = 0; i < rowsA; ++i) {
+		for (size_t j = 0; j < colsB; ++j) {
+			for (size_t k = 0; k < colsA; ++k) {
+				result[i][j] += A[i][k] * B[k][j];
+			}
+		}
+	}
+
+	return result;
+}
+
+class render_t {
+private:
+	shared_ptr<model_t> origin;
+	Matrix ts_mtx = {{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
+public:
+	void translation(float a, float b, float c);
+	void rotation(float a, float b, float c, float r);
+	void set_scale(float s);
+	Vertex vertex(int idx) {
+		Vertex nvx;
+		if (idx >= origin->vertex.size())
+			throw out_of_range("버텍스 범위 넘어감");
+		Matrix ov = { {origin->vertex.at(idx).X}, {origin->vertex.at(idx).Y}, {origin->vertex.at(idx).Z} , {1}};
+		Matrix rs = multiplyMatrices(ts_mtx, ov);
+		nvx.X = rs[0][0]; nvx.Y = rs[1][0]; nvx.Z = rs[2][0];
+		return nvx;
+	}
+	vector<Vertex>& vertex_color() {
+		return origin->vertex_color;
+	}
+	vector<MMesh>& mymesh() {
+		return origin->mymesh;
+	}
+	vector<shared_ptr<Material>>& material() {
+		return origin->material;
+	}
+	render_t(shared_ptr<model_t> origin_);
 };
 
 class object_t {
@@ -147,7 +203,9 @@ bool checkt = false;
 Vertex *vertex;
 Vertex *vertex_color;
 MMesh *mymesh;
-vector<unique_ptr<model_t>> models;
+vector<shared_ptr<model_t>> models;
+
+vector<unique_ptr<render_t>> renders;
 
 bool recheck;
 
