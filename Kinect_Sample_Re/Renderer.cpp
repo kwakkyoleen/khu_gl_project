@@ -875,6 +875,16 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 				if (count == 1) {
 					nm->material.at(mtx_idx)->d = x;
 				}
+				count = sscanf(bufferm, "map_Kd -o %f %f %f %s\n", &x, &y, &z, buffers);
+				if (count == 4) {
+					char mkdfilename[300];
+					strcpy(mkdfilename, modeldir.c_str());
+					strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
+					nm->material.at(mtx_idx)->loadTexture(mkdfilename);
+					nm->material.at(mtx_idx)->texture_offset_x = x;
+					nm->material.at(mtx_idx)->texture_offset_y = y;
+					nm->material.at(mtx_idx)->texture_offset_z = z;
+				}
 				count = sscanf(bufferm, "map_Kd -s %d %d %d %s\n", &ix, &iy, &iz, buffers);
 				if (count == 4) {
 					char mkdfilename[300];
@@ -1198,7 +1208,7 @@ void load_tree() {
 	auto tree4 = load_model("tree4.obj", "models\\tree\\", 2);
 	auto tree5 = load_model("tree5.obj", "models\\tree\\", 2);
 	auto gress1 = load_model("gress1.obj", "models\\gress\\", 2);
-	auto rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 14, 1, 0.5, 14523423);
+	auto rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 5, 4, 0.5, 14523423);
 	unique_ptr<model_t> object_temp;
 	for (const auto& p : rand_palace) {
 		if(p.c == 0)
@@ -1207,7 +1217,7 @@ void load_tree() {
 			object_temp = make_unique<model_t>(tree2);
 		else
 			object_temp = make_unique<model_t>(tree1);
-		object_temp->translation(p.x, 0, p.z);
+		object_temp->translation(p.x, 0.05, p.z);
 		object_temp->rotation_a(0, 1, 0, p.r);
 		models.push_back(move(object_temp));
 	}
@@ -1218,7 +1228,7 @@ void load_tree() {
 		else
 			object_temp = make_unique<model_t>(gress1);
 		object_temp->translation(p.x, 0.05, p.z);
-		object_temp->rotation(0, 1, 0, p.r);
+		object_temp->rotation_a(0, 1, 0, p.r);
 		models.push_back(move(object_temp));
 	}
 }
@@ -1250,6 +1260,10 @@ void load_models() {
 	auto forutain = load_model("forutain.obj", "models\\forutain\\", 2.3);
 	forutain->translation(0, 0.1, 0);
 	models.push_back(move(forutain));
+
+	auto toilet = load_model("public_toilet_sim.obj", "models\\public_toilet\\", 3.5);
+	toilet->translation(5.5, 0.05, -9);
+	models.push_back(move(toilet));
 
 }
 

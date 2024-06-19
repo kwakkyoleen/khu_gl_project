@@ -45,6 +45,7 @@ public:
 	int illum = 0;
 	int width=0, height=0, nrChannels=0;
 	int ewidth=0, eheight=0, enrChannels=0;
+	float texture_offset_x = 0, texture_offset_y = 0, texture_offset_z = 0;
 	int ts_x = 1, ts_y = 1, ts_z = 1; // texture scale
 	bool loadTexture(const char* filename);
 	bool loadEmission(const char* filename);

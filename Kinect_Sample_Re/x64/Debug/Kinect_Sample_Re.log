@@ -14,75 +14,76 @@ D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(663,12): warn
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(706,22): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(707,22): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(708,22): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(961,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(962,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(963,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(964,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(965,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(966,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(967,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(968,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(969,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(970,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(971,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(972,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(973,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(974,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(975,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(976,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(977,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(978,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(979,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(980,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(981,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(983,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(984,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(985,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(987,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(988,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(982,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(989,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(990,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(991,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(993,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(994,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(995,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(997,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(998,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(999,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1000,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1001,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1006,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1007,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1008,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1009,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1010,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1011,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1016,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1017,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1018,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1024,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1025,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1019,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1026,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1035,24): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1036,24): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1037,24): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1027,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1028,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1034,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1035,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1036,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1045,24): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1046,24): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1047,24): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(800,7): warning C4101: 'ch' :참조되지 않은 지역 변수입니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1076,32): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1079,59): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1088,27): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1093,40): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1097,39): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1102,40): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1106,39): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1111,40): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1115,39): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1120,45): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1123,44): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1129,40): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1133,39): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1138,41): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1142,40): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1156,30): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1159,30): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1165,44): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1168,43): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1172,47): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1175,46): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1185,38): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1189,38): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1211,37): warning C4244: '인수': 'const int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1086,32): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1089,59): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1098,27): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1103,40): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1107,39): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1112,40): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1116,39): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1121,40): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1125,39): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1130,45): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1133,44): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1139,40): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1143,39): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1148,41): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1152,40): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1166,30): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1169,30): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1175,44): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1178,43): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1182,47): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1185,46): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1195,38): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1199,38): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1220,42): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1221,35): warning C4244: '인수': 'const int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1241,32): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1245,42): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1245,31): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1250,70): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1251,33): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-  LINK : D:\Project\gl\glcode1\khu_gl_project\x64\Debug\gltest.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1221,37): warning C4244: '인수': 'const int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1230,42): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1231,37): warning C4244: '인수': 'const int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1251,32): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1255,42): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1255,31): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1260,70): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1261,33): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1265,35): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
   Kinect_Sample_Re.vcxproj -> D:\Project\gl\glcode1\khu_gl_project\x64\Debug\gltest.exe
