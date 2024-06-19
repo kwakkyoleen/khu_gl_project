@@ -1194,18 +1194,32 @@ void load_bench() {
 void load_tree() {
 	auto tree1 = load_model("tree1.obj", "models\\tree\\", 2);
 	auto tree2 = load_model("tree2.obj", "models\\tree\\", 2);
+	auto tree3 = load_model("tree3.obj", "models\\tree\\", 2);
+	auto tree4 = load_model("tree4.obj", "models\\tree\\", 2);
+	auto tree5 = load_model("tree5.obj", "models\\tree\\", 2);
+	auto gress1 = load_model("gress1.obj", "models\\gress\\", 2);
 	auto rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 14, 1, 0.5, 14523423);
-	unique_ptr<model_t> tree_temp;
+	unique_ptr<model_t> object_temp;
 	for (const auto& p : rand_palace) {
 		if(p.c == 0)
-			tree_temp = make_unique<model_t>(tree1);
+			object_temp = make_unique<model_t>(tree1);
 		else if(p.c == 1)
-			tree_temp = make_unique<model_t>(tree2);
+			object_temp = make_unique<model_t>(tree2);
 		else
-			tree_temp = make_unique<model_t>(tree1);
-		tree_temp->translation(p.x, 0, p.z);
-		tree_temp->rotation_a(0, 1, 0, p.r);
-		models.push_back(move(tree_temp));
+			object_temp = make_unique<model_t>(tree1);
+		object_temp->translation(p.x, 0, p.z);
+		object_temp->rotation_a(0, 1, 0, p.r);
+		models.push_back(move(object_temp));
+	}
+	rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 4, 0, 0.5, 523421);
+	for (const auto& p : rand_palace) {
+		if (p.c == 0)
+			object_temp = make_unique<model_t>(gress1);
+		else
+			object_temp = make_unique<model_t>(gress1);
+		object_temp->translation(p.x, 0.05, p.z);
+		object_temp->rotation(0, 1, 0, p.r);
+		models.push_back(move(object_temp));
 	}
 }
 

@@ -76,10 +76,13 @@ D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1172,47): war
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1175,46): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1185,38): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
 D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1189,38): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1207,35): warning C4244: '인수': 'const int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1227,32): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1231,42): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1231,31): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1236,70): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
-D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1237,33): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1211,37): warning C4244: '인수': 'const int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1220,42): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1221,35): warning C4244: '인수': 'const int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1241,32): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1245,42): warning C4244: '인수': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1245,31): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1250,70): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Project\gl\glcode1\khu_gl_project\Kinect_Sample_Re\Renderer.cpp(1251,33): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+  LINK : D:\Project\gl\glcode1\khu_gl_project\x64\Debug\gltest.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
   Kinect_Sample_Re.vcxproj -> D:\Project\gl\glcode1\khu_gl_project\x64\Debug\gltest.exe
