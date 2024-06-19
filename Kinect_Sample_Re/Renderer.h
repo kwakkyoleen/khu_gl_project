@@ -7,6 +7,8 @@
 #include "stb_image.h"
 #include <list>
 #include <vector>
+#include <utility>
+#include <random>
 #include <memory>
 //#define TIME_CHECK_
 #define DEPTH_CALIB_
@@ -100,6 +102,14 @@ public :
 		zmax = other->zmax;
 	}
 
+};
+
+class object_t {
+public:
+	float x, y, z;
+	int r, c;
+	object_t(int c_, float x_, float y_, float z_, int r_) :
+		c(c_), x(x_), y(y_), z(z_), r(r_) {}
 };
 
 // variables for GUI
