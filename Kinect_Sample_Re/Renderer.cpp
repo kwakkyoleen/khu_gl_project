@@ -1268,19 +1268,19 @@ void load_models() {
 	ground->translation(0, -1.1, 0);
 	for (int i = 0; i < 2; i++) {
 		for (int j = 0; j < 4; j++) {
-			auto ground_temp = make_shared<model_t>(ground);
+			auto ground_temp = make_unique<render_t>(ground);
 			ground_temp->translation(i * 9, 0, j*7-10.5);
-			models.push_back(move(ground_temp));
+			renders.push_back(move(ground_temp));
 		}
 	}
 
 	auto forutain = load_model("forutain.obj", "models\\forutain\\", 2.3);
 	forutain->translation(0, 0.1, 0);
-	models.push_back(move(forutain));
+	renders.push_back(make_unique<render_t>(forutain));
 
 	auto toilet = load_model("public_toilet_sim.obj", "models\\public_toilet\\", 3.5);
 	toilet->translation(5.5, 0.05, -9);
-	models.push_back(move(toilet));
+	renders.push_back(make_unique<render_t>(toilet));
 
 }
 
