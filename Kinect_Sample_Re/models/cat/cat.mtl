@@ -1,0 +1,24 @@
+# Blender 4.1.1 MTL File: 'empty.blend'
+# www.blender.org
+
+newmtl pet_s_4cat_Black_mat
+Ns 0.000000
+Ka 0.100000 0.100000 0.100000
+Kd 0.900000 0.900000 0.900000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd textures/Image_0.png
+
+newmtl pet_s_4cat_Blackeye_mat
+Ns 0.000000
+Ka 0.100000 0.100000 0.100000
+Kd 0.600000 0.600000 0.600000
+Ks 0.500000 0.500000 0.500000
+Ke 0.600000 0.600000 0.600000
+Ni 1.500000
+illum 2
+map_Kd textures/Image_0.png
+map_Ke textures/Image_0.png

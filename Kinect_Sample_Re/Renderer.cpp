@@ -471,6 +471,8 @@ void display()
 					glMaterialf(GL_FRONT, GL_SHININESS, nm->material.at(mat_num)->ns);
 					if (nm->material.at(mat_num)->eheight > 0)
 						glMaterialfv(GL_FRONT, GL_EMISSION, nm->material.at(mat_num)->ke);
+					else
+						glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
 				}
 				else {
 					glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
@@ -503,7 +505,7 @@ void display()
 			}
 			// ke
 			// ���̼� �����ε� �� �̻��� �̰�
-			if (nm->material.at(mat_num)->eheight > 0 && true) {
+			if (nm->material.at(mat_num)->eheight > 0) {
 				glBindTexture(GL_TEXTURE_2D, nm->material.at(mat_num)->eid);
 				//glEnable(GL_BLEND);
 				//glBlendFunc(GL_ONE, GL_ONE); // Additive blending
@@ -1353,6 +1355,17 @@ void load_lamp() {
 
 void load_models() {
 	//Ÿ�� �ε�
+
+	auto ground = load_model("ground_sim.obj", "models\\ground\\", 10);
+	ground->translation(0, -1.1, 0);
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 4; j++) {
+			auto ground_temp = make_unique<model_t>(ground);
+			ground_temp->translation(i * 9, 0, j * 7 - 10.5);
+			models.push_back(move(ground_temp));
+		}
+	}
+
 	load_tile();
 
 	load_bench();
@@ -1367,16 +1380,6 @@ void load_models() {
 	kamen->translation(1, 0, 0);
 	models.push_back(move(kamen));*/
 
-	auto ground = load_model("ground_sim.obj", "models\\ground\\", 10);
-	ground->translation(0, -1.1, 0);
-	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 4; j++) {
-			auto ground_temp = make_unique<model_t>(ground);
-			ground_temp->translation(i * 9, 0, j*7-10.5);
-			models.push_back(move(ground_temp));
-		}
-	}
-
 	auto forutain = load_model("forutain.obj", "models\\forutain\\", 2.3);
 	forutain->translation(0, 0.1, 0);
 	models.push_back(move(forutain));
@@ -1389,16 +1392,19 @@ void load_models() {
 	toilet->translation(5.5, 0.05, -9);
 	models.push_back(move(toilet));
 
+	auto cat = load_model("cat.obj", "models\\cat\\", 0.5);
+	auto obj_temp = make_unique<model_t>(cat);
+	obj_temp->rotation(0, 1, 0, 110);
+	obj_temp->translation(9, 0.05, -0.6);
+	models.push_back(move(obj_temp));
+
 	auto pavilion = load_model("pavilion.obj", "models\\pavilion\\", 3.5);
-	auto obj_temp = make_unique<model_t>(pavilion);
+	obj_temp = make_unique<model_t>(pavilion);
 	obj_temp->translation(-0.5, 0.05, -7);
 	models.push_back(move(obj_temp));
 	obj_temp = make_unique<model_t>(pavilion);
 	obj_temp->translation(-0.5, 0.05, 7);
 	models.push_back(move(obj_temp));
-
-
-
 }
 
 int main(int argc, char* argv[])
