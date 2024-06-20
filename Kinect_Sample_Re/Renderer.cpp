@@ -1084,6 +1084,11 @@ void load_models() {
 	forutain->translation(-1, 0, 0);
 	models.push_back(move(forutain));
 
+	auto basketball = load_model("basketball.obj", "models\\basketball\\", 3);
+	basketball->translation(10, 0.5, 8);
+	basketball->rotation_a(0, 1, 0, 90);
+	models.push_back(move(basketball));
+
 }
 
 int main(int argc, char* argv[])
