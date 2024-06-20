@@ -28,6 +28,9 @@ struct Vertex{
 	int index_1;
 	int index_2;
 	int index_3;
+	Vertex(){}
+	Vertex(float x, float y, float z) :
+		X(x), Y(y), Z(z) {}
 };
 
 class Material {
@@ -149,6 +152,7 @@ Vertex *vertex;
 Vertex *vertex_color;
 MMesh *mymesh;
 vector<unique_ptr<model_t>> models;
+vector<Vertex> lamp_loc;
 
 bool recheck;
 

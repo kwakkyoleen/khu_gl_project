@@ -383,27 +383,29 @@ void display()
 
 
 	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
+	//glEnable(GL_LIGHT0);
 	GLfloat diffuse0[4] = { 0.5, 0.5, 0.5, 1.0 };
-	//GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 1.0 };
-	GLfloat ambient0[4] = { 0.8, 0.8, 0.8, 1.0 };
+	GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 1.0 };
+	//GLfloat ambient0[4] = { 0.8, 0.8, 0.8, 1.0 };
 	GLfloat specular0[4] = { 0.5, 0.5, 0.5, 1.0 };
 	GLfloat emission0[4] = { 0.3, 0.3, 0.3, 1.0 };
 	GLfloat light0_pos[4] = { 2.0, 2.0, 12.0, 1.0 };
 
-	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse0);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, specular0);
-	//glLightfv(GL_LIGHT0, GL_EMISSION, emission0);
+	for (int i = 0; i < 8 && i < lamp_loc.size(); i++) {
+		glEnable(GL_LIGHT0 + i);
+		Vertex lv = lamp_loc.at(i);
+		GLfloat light1_pos[4] = { lv.X, lv.Y, lv.Z, 1.0 };
+		glLightfv(GL_LIGHT0 + i, GL_POSITION, light1_pos);
+		glLightfv(GL_LIGHT0 + i, GL_AMBIENT, ambient0);
+		glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diffuse0);
+		glLightfv(GL_LIGHT0 + i, GL_SPECULAR, specular0);
+		//glLightfv(GL_LIGHT0, GL_EMISSION, emission0);
 
 
-	//glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
-	//glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
-	//glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.05);
-	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0);
-	glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0);
-	glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0);
+		glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
+		glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
+		glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.05);
+	}
 
 
 	//������ �ö�ƽ�� ������ ������ ������ ���� ����
@@ -432,6 +434,7 @@ void display()
 
 	glEnable(GL_TEXTURE_2D);
 	glBegin(GL_QUADS);*/
+
 	for (auto& nm : models) {
 
 		int mat_num = -1;
@@ -440,7 +443,7 @@ void display()
 		{
 			if (mm.m != mat_num) {
 				mat_num = mm.m;
-				if (nm->material.at(mat_num)->iskdefined() && false) {
+				if (nm->material.at(mat_num)->iskdefined()) {
 					glMaterialfv(GL_FRONT, GL_AMBIENT, nm->material.at(mat_num)->ka);
 					glMaterialfv(GL_FRONT, GL_DIFFUSE, nm->material.at(mat_num)->kd);
 					glMaterialfv(GL_FRONT, GL_SPECULAR, nm->material.at(mat_num)->ks);
@@ -1203,21 +1206,53 @@ void load_bench() {
 	bench_temp->translation(9.6, 0, -4.7);
 	bench_temp->rotation_a(0, 1, 0, 105);
 	models.push_back(move(bench_temp));
+
+	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(5, 0, -13.0);
+	bench_temp->rotation_a(0, 1, 0, 0);
+	models.push_back(move(bench_temp));
+	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(6.3, 0, -13.0);
+	bench_temp->rotation_a(0, 1, 0, 0);
+	models.push_back(move(bench_temp));
+
+	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(-0.5, 0, -13.0);
+	bench_temp->rotation_a(0, 1, 0, 0);
+	models.push_back(move(bench_temp));
+	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(0.8, 0, -13.0);
+	bench_temp->rotation_a(0, 1, 0, 0);
+	models.push_back(move(bench_temp));
 }
 
 void load_tree() {
 	auto tree1 = load_model("tree1.obj", "models\\tree\\", 2);
 	auto tree2 = load_model("tree2.obj", "models\\tree\\", 2);
 	auto tree3 = load_model("tree3.obj", "models\\tree\\", 2);
-	auto tree4 = load_model("tree4.obj", "models\\tree\\", 2);
-	auto tree5 = load_model("tree5.obj", "models\\tree\\", 2);
+	//auto tree4 = load_model("tree4.obj", "models\\tree\\", 2);
+	//auto tree5 = load_model("tree5.obj", "models\\tree\\", 2);
 	auto gress1 = load_model("gress1.obj", "models\\gress\\", 2);
-	auto rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 5, 4, 0.5, 14523423);
+	auto rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 5, 2, 0.5, 14523423);
 	unique_ptr<model_t> object_temp;
 	for (const auto& p : rand_palace) {
 		if(p.c == 0)
 			object_temp = make_unique<model_t>(tree1);
 		else if(p.c == 1)
+			object_temp = make_unique<model_t>(tree2);
+		else if(p.c == 2)
+			object_temp = make_unique<model_t>(tree3);
+		else
+			object_temp = make_unique<model_t>(tree1);
+		object_temp->translation(p.x, 0.05, p.z);
+		object_temp->rotation_a(0, 1, 0, p.r);
+		models.push_back(move(object_temp));
+	}
+	rand_palace = make_random_place(10.0f, 13.0f, -14.0f, -1.5f, 10, 4, 0.5, 121512342);
+	for (const auto& p : rand_palace) {
+		if (p.c == 0)
+			object_temp = make_unique<model_t>(tree1);
+		else if (p.c == 1)
 			object_temp = make_unique<model_t>(tree2);
 		else
 			object_temp = make_unique<model_t>(tree1);
@@ -1225,7 +1260,32 @@ void load_tree() {
 		object_temp->rotation_a(0, 1, 0, p.r);
 		models.push_back(move(object_temp));
 	}
-	rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 4, 0, 0.5, 523421);
+
+	rand_palace = make_random_place(10.0f, 13.0f, 1.5f, 14.0f, 10, 4, 0.5, 121512342);
+	for (const auto& p : rand_palace) {
+		if (p.c == 0)
+			object_temp = make_unique<model_t>(tree1);
+		else if (p.c == 1)
+			object_temp = make_unique<model_t>(tree2);
+		else
+			object_temp = make_unique<model_t>(tree1);
+		object_temp->translation(p.x, 0.05, p.z);
+		object_temp->rotation_a(0, 1, 0, p.r);
+		models.push_back(move(object_temp));
+	}
+
+	rand_palace = make_random_place(4.0f, 7.0f, -8.0f, -3.5f, 4, 0, 0.5, 5234221);
+	for (const auto& p : rand_palace) {
+		if (p.c == 0)
+			object_temp = make_unique<model_t>(gress1);
+		else
+			object_temp = make_unique<model_t>(gress1);
+		object_temp->translation(p.x, 0.05, p.z);
+		object_temp->rotation_a(0, 1, 0, p.r);
+		models.push_back(move(object_temp));
+	}
+
+	rand_palace = make_random_place(-1.5f, 1.5f, -10.0f, -8.5f, 2, 0, 0.5, 5234221);
 	for (const auto& p : rand_palace) {
 		if (p.c == 0)
 			object_temp = make_unique<model_t>(gress1);
@@ -1237,6 +1297,29 @@ void load_tree() {
 	}
 }
 
+void load_lamp() {
+	auto lamp = load_model("lamp.obj", "models\\streetlamp\\", 2);
+	auto obj_temp = make_unique<model_t>(lamp);
+	obj_temp->translation(4, 0, 1.5);
+	lamp_loc.push_back(Vertex(4.0f, 2.0f, 1.5f));
+	models.push_back(move(obj_temp));
+
+	obj_temp = make_unique<model_t>(lamp);
+	obj_temp->translation(13, 0, 1.5);
+	lamp_loc.push_back(Vertex(13.0f, 2.0f, 1.5f));
+	models.push_back(move(obj_temp));
+
+	obj_temp = make_unique<model_t>(lamp);
+	obj_temp->translation(4, 0, 10);
+	lamp_loc.push_back(Vertex(4.0f, 2.0f, 10.0f));
+	models.push_back(move(obj_temp));
+
+	obj_temp = make_unique<model_t>(lamp);
+	obj_temp->translation(4, 0, -13);
+	lamp_loc.push_back(Vertex(4.0f, 2.0f, -13.0f));
+	models.push_back(move(obj_temp));
+}
+
 void load_models() {
 	//Ÿ�� �ε�
 	load_tile();
@@ -1244,6 +1327,8 @@ void load_models() {
 	load_bench();
 
 	load_tree();
+
+	load_lamp();
 
 	/*models.push_back(load_model("Echidna.obj", "models\\", 1.0));
 	
@@ -1272,6 +1357,16 @@ void load_models() {
 	auto toilet = load_model("public_toilet_sim.obj", "models\\public_toilet\\", 3.5);
 	toilet->translation(5.5, 0.05, -9);
 	models.push_back(move(toilet));
+
+	auto pavilion = load_model("pavilion.obj", "models\\pavilion\\", 3.5);
+	auto obj_temp = make_unique<model_t>(pavilion);
+	obj_temp->translation(-0.5, 0.05, -7);
+	models.push_back(move(obj_temp));
+	obj_temp = make_unique<model_t>(pavilion);
+	obj_temp->translation(-0.5, 0.05, 7);
+	models.push_back(move(obj_temp));
+
+
 
 }
 
