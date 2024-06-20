@@ -389,7 +389,7 @@ void display()
 	GLfloat ambient0[4] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat specular0[4] = { 0.5, 0.5, 0.5, 1.0 };
 	GLfloat emission0[4] = { 0.3, 0.3, 0.3, 1.0 };
-	GLfloat light0_pos[4] = { 2.0, 2.0, 2.0, 1.0 };
+	GLfloat light0_pos[4] = { 2.0, 2.0, 12.0, 1.0 };
 
 	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
