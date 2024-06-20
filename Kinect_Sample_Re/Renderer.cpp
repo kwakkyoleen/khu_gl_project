@@ -508,8 +508,10 @@ void display()
 				glEnable(GL_LIGHTING);
 			}
 			// kd
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			if (nm->material.at(mat_num)->nrChannels > 3) {
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			}
 			glBindTexture(GL_TEXTURE_2D, nm->material.at(mat_num)->did);
 			if (mm.V4 > 0)
 				glBegin(GL_QUADS);
@@ -531,7 +533,9 @@ void display()
 				}
 			}
 			glEnd();
-			glDisable(GL_BLEND);
+			if (nm->material.at(mat_num)->nrChannels > 3) {
+				glDisable(GL_BLEND);
+			}
 
 			
 		}
@@ -1235,11 +1239,11 @@ void load_tree() {
 
 void load_models() {
 	//Ÿ�� �ε�
-	load_tile();
+	//load_tile();
 
-	load_bench();
+	//load_bench();
 
-	load_tree();
+	//oad_tree();
 
 	/*models.push_back(load_model("Echidna.obj", "models\\", 1.0));
 	
@@ -1262,7 +1266,7 @@ void load_models() {
 	models.push_back(move(forutain));
 
 	auto basketball = load_model("basketball.obj", "models\\basketball\\", 3);
-	basketball->translation(10, 0.5, 8);
+	basketball->translation(10, 0.5, 2);
 	basketball->rotation_a(0, 1, 0, 90);
 	models.push_back(move(basketball));
 	
