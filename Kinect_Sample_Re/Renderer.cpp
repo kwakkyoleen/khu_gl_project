@@ -372,8 +372,13 @@ void display()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(60, 1, 0.1, 200);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
 	glTranslatef(t[0], t[1], t[2] - 1.0f);
 	glScalef(1, 1, 1);
+
 	GLfloat m[4][4], m1[4][4];
 	build_rotmatrix(m, quat);
 	gluLookAt(0, 2.0, 2.0, 0, 0, 0, 0, 1.0, 0);
@@ -383,28 +388,44 @@ void display()
 
 
 	glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
-	GLfloat diffuse0[4] = { 0.5, 0.5, 0.5, 1.0 };
+	GLfloat diffuse0[4] = { 0, 0, 0, 1.0 };
 	GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 1.0 };
-	//GLfloat ambient0[4] = { 0.8, 0.8, 0.8, 1.0 };
-	GLfloat specular0[4] = { 0.5, 0.5, 0.5, 1.0 };
-	GLfloat emission0[4] = { 0.3, 0.3, 0.3, 1.0 };
-	GLfloat light0_pos[4] = { 2.0, 2.0, 12.0, 1.0 };
+	GLfloat specular0[4] = { 0, 0, 0, 1.0 };
+	GLfloat light0_pos[4] = { 0, 30, 0, 0.0 };
 
-	for (int i = 0; i < 8 && i < lamp_loc.size(); i++) {
-		glEnable(GL_LIGHT0 + i);
+	glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient0);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse0);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specular0);
+	//glLightfv(GL_LIGHT0, GL_EMISSION, emission0);
+
+
+	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0);
+	glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0);
+	glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0);
+	glEnable(GL_LIGHT0);
+	GLfloat diffuse1[4] = { 0.5, 0.5, 0.5, 1.0 };
+	GLfloat ambient1[4] = { 0.1, 0.1, 0.1, 1.0 };
+	//GLfloat ambient0[4] = { 0.8, 0.8, 0.8, 1.0 };
+	GLfloat specular1[4] = { 0.5, 0.5, 0.5, 1.0 };
+
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadIdentity();
+
+	for (int i = 0; i < 7 && i < lamp_loc.size(); i++) {
 		Vertex lv = lamp_loc.at(i);
-		GLfloat light1_pos[4] = { lv.X, lv.Y, lv.Z, 1.0 };
-		glLightfv(GL_LIGHT0 + i, GL_POSITION, light1_pos);
-		glLightfv(GL_LIGHT0 + i, GL_AMBIENT, ambient0);
-		glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, diffuse0);
-		glLightfv(GL_LIGHT0 + i, GL_SPECULAR, specular0);
+		GLfloat light1_pos[4] = { lv.X, lv.Y, lv.Z+2, 1.0 };
+		glLightfv(GL_LIGHT1 + i, GL_POSITION, light1_pos);
+		glLightfv(GL_LIGHT1 + i, GL_AMBIENT, ambient1);
+		glLightfv(GL_LIGHT1 + i, GL_DIFFUSE, diffuse1);
+		glLightfv(GL_LIGHT1 + i, GL_SPECULAR, specular1);
 		//glLightfv(GL_LIGHT0, GL_EMISSION, emission0);
 
 
-		glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
-		glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
-		glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.05);
+		glLightf(GL_LIGHT1 + i, GL_CONSTANT_ATTENUATION, 0.2);
+		glLightf(GL_LIGHT1 + i, GL_LINEAR_ATTENUATION, 0.1);
+		glLightf(GL_LIGHT1 + i, GL_QUADRATIC_ATTENUATION, 0.05);
+		glEnable(GL_LIGHT1 + i);
 	}
 
 
@@ -1317,6 +1338,16 @@ void load_lamp() {
 	obj_temp = make_unique<model_t>(lamp);
 	obj_temp->translation(4, 0, -13);
 	lamp_loc.push_back(Vertex(4.0f, 2.0f, -13.0f));
+	models.push_back(move(obj_temp));
+
+	obj_temp = make_unique<model_t>(lamp);
+	obj_temp->translation(9, 0, -13);
+	lamp_loc.push_back(Vertex(9.0f, 2.0f, -13.0f));
+	models.push_back(move(obj_temp));
+
+	obj_temp = make_unique<model_t>(lamp);
+	obj_temp->translation(7.5, 0, -7);
+	lamp_loc.push_back(Vertex(7.5f, 2.0f, -7.0f));
 	models.push_back(move(obj_temp));
 }
 
