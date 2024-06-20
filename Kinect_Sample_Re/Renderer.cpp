@@ -386,7 +386,7 @@ void display()
 	glEnable(GL_LIGHT0);
 	GLfloat diffuse0[4] = { 0.5, 0.5, 0.5, 1.0 };
 	//GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 1.0 };
-	GLfloat ambient0[4] = { 1.0, 1.0, 1.0, 1.0 };
+	GLfloat ambient0[4] = { 0.8, 0.8, 0.8, 1.0 };
 	GLfloat specular0[4] = { 0.5, 0.5, 0.5, 1.0 };
 	GLfloat emission0[4] = { 0.3, 0.3, 0.3, 1.0 };
 	GLfloat light0_pos[4] = { 2.0, 2.0, 12.0, 1.0 };
@@ -440,7 +440,7 @@ void display()
 		{
 			if (mm.m != mat_num) {
 				mat_num = mm.m;
-				if (nm->material.at(mat_num)->iskdefined()) {
+				if (nm->material.at(mat_num)->iskdefined() && false) {
 					glMaterialfv(GL_FRONT, GL_AMBIENT, nm->material.at(mat_num)->ka);
 					glMaterialfv(GL_FRONT, GL_DIFFUSE, nm->material.at(mat_num)->kd);
 					glMaterialfv(GL_FRONT, GL_SPECULAR, nm->material.at(mat_num)->ks);
@@ -1239,11 +1239,11 @@ void load_tree() {
 
 void load_models() {
 	//Ÿ�� �ε�
-	//load_tile();
+	load_tile();
 
-	//load_bench();
+	load_bench();
 
-	//oad_tree();
+	load_tree();
 
 	/*models.push_back(load_model("Echidna.obj", "models\\", 1.0));
 	
@@ -1265,9 +1265,8 @@ void load_models() {
 	forutain->translation(0, 0.1, 0);
 	models.push_back(move(forutain));
 
-	auto basketball = load_model("basketball.obj", "models\\basketball\\", 3);
-	basketball->translation(10, 0.5, 2);
-	basketball->rotation_a(0, 1, 0, 90);
+	auto basketball = load_model("basketball.obj", "models\\basketball\\", 7);
+	basketball->translation(5.5, 0.1, 6);
 	models.push_back(move(basketball));
 	
 	auto toilet = load_model("public_toilet_sim.obj", "models\\public_toilet\\", 3.5);
