@@ -332,7 +332,7 @@ void InitializeWindow(int argc, char* argv[])
 	glutInit(&argc, argv);
 
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);
-	glutInitWindowSize(1000 / 2, 1000 / 2);
+	glutInitWindowSize(2000 / 2, 2000 / 2);
 
 	glutInitWindowPosition(0, 0);
 
@@ -385,8 +385,8 @@ void display()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	GLfloat diffuse0[4] = { 0.5, 0.5, 0.5, 1.0 };
-	GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 1.0 };
-	//GLfloat ambient0[4] = { 1.0, 1.0, 1.0, 1.0 };
+	//GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 1.0 };
+	GLfloat ambient0[4] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat specular0[4] = { 0.5, 0.5, 0.5, 1.0 };
 	GLfloat emission0[4] = { 0.3, 0.3, 0.3, 1.0 };
 	GLfloat light0_pos[4] = { 2.0, 2.0, 2.0, 1.0 };
@@ -398,19 +398,22 @@ void display()
 	//glLightfv(GL_LIGHT0, GL_EMISSION, emission0);
 
 
-	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
-	glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
-	glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.05);
+	//glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2);
+	//glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
+	//glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.05);
+	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0);
+	glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0);
+	glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0);
 
 
-	//»¡°£»ö ÇÃ¶ó½ºÆ½°ú À¯»çÇÑ ÀçÁúÀ» ´ÙÀ½°ú °°ÀÌ Á¤ÀÇ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¶ï¿½Æ½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GLfloat mat_ambient[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 	GLfloat mat_diffuse[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
 	GLfloat mat_specular[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
 	GLfloat mat_emission[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	GLfloat mat_shininess = 32.0;
 
-	//// Æú¸®°ïÀÇ ¾Õ¸éÀÇ ÀçÁúÀ» ¼³Á¤ 
+	//// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	//glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 	//glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 	//glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
@@ -475,7 +478,7 @@ void display()
 				glShadeModel(GL_SMOOTH);
 			}
 			// ke
-			// ¿¡¹Ì¼Ç Àû¿ëÀÎµ¥ Á» ÀÌ»óÇÔ ÀÌ°Å
+			// ï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½Ì°ï¿½
 			if (nm->material.at(mat_num)->eheight > 0 && true) {
 				glBindTexture(GL_TEXTURE_2D, nm->material.at(mat_num)->eid);
 				//glEnable(GL_BLEND);
@@ -568,13 +571,13 @@ void display()
 	//glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.05);
 
 	//
-	////»¡°£»ö ÇÃ¶ó½ºÆ½°ú À¯»çÇÑ ÀçÁúÀ» ´ÙÀ½°ú °°ÀÌ Á¤ÀÇ
+	////ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¶ï¿½Æ½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//GLfloat mat_ambient[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
 	//GLfloat mat_diffuse[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
 	//GLfloat mat_specular[4] = { 0.8f, 0.6f, 0.6f, 1.0f };
 	//GLfloat mat_shininess = 32.0;
 
-	//// Æú¸®°ïÀÇ ¾Õ¸éÀÇ ÀçÁúÀ» ¼³Á¤ 
+	//// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	//glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
 	//glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
 	//glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
@@ -707,7 +710,7 @@ void model_t::get_vertex_mean(float& a, float& b, float& c)
 
 
 bool Material::loadTexture(const char* filename) {
-	// ÀÌ¹ÌÁö ·Îµù
+	// ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Îµï¿½
 	mkd = stbi_load(filename, &width, &height, &nrChannels, 0);
 	if (!mkd) {
 		std::cerr << "Failed to load texture: " << filename << std::endl;
@@ -776,7 +779,7 @@ bool Material::iskdefined()
 
 
 void replaceNewlineWithNull(char* str) {
-	size_t length = strlen(str); // ¹®ÀÚ¿­ÀÇ ±æÀÌ¸¦ ±¸ÇÕ´Ï´Ù.
+	size_t length = strlen(str); // ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 	for (size_t i = 0; i < length; ++i) {
 		if (str[i] == '\n') {
 			str[i] = '\0';
@@ -802,7 +805,7 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 	bool start_flag = true;
 	const char mtllib[] = "mtllib";
 	char buffers[256];
-	char buffer[256];  // ÁÙÀ» ÀÐÀ» ¹öÆÛ
+	char buffer[256];  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	string fullobjdir = modeldir + objname;
 	FILE* fp;
@@ -871,6 +874,16 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 				count = sscanf(bufferm, "d %f\n", &x);
 				if (count == 1) {
 					nm->material.at(mtx_idx)->d = x;
+				}
+				count = sscanf(bufferm, "map_Kd -o %f %f %f %s\n", &x, &y, &z, buffers);
+				if (count == 4) {
+					char mkdfilename[300];
+					strcpy(mkdfilename, modeldir.c_str());
+					strcat_s(mkdfilename, sizeof(mkdfilename), buffers);
+					nm->material.at(mtx_idx)->loadTexture(mkdfilename);
+					nm->material.at(mtx_idx)->texture_offset_x = x;
+					nm->material.at(mtx_idx)->texture_offset_y = y;
+					nm->material.at(mtx_idx)->texture_offset_z = z;
 				}
 				count = sscanf(bufferm, "map_Kd -s %d %d %d %s\n", &ix, &iy, &iz, buffers);
 				if (count == 4) {
@@ -1037,13 +1050,42 @@ unique_ptr<model_t> load_model(const string objname, const string modeldir, floa
 	for (Vertex& vt : nm->vertex) {
 		vt.X = (vt.X - weight_center_x) * scale_calc;
 		vt.Y = (vt.Y - min_y) * scale_calc;
-		vt.Z = (vt.Z - weight_center_z) * scale_calc;// z´Â ¹Ù´ÚÀ» ±âÁØÀ¸·Î
+		vt.Z = (vt.Z - weight_center_z) * scale_calc;// zï¿½ï¿½ ï¿½Ù´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	}
 
 	return nm;
 }
 
-void load_models() {
+bool is_able_place(const vector<object_t>& exsit_places, const object_t& now_place, float min_interval) {
+	for (const object_t& exsit_place : exsit_places) {
+		if (pow(exsit_place.x - now_place.x, 2) + pow(exsit_place.z - now_place.z, 2) < pow(min_interval, 2))
+			return false;
+	}
+	return true;
+}
+
+vector<object_t> make_random_place(float min_x, float max_x, float min_z, float max_z, float max_num, int max_class, float min_interval, int rand_seed = 100000) {
+	int iter_times = 0, max_iter_times = 1000;
+	vector<object_t> places;
+	mt19937 gen(rand_seed);
+	uniform_real_distribution<float> dis_x(min_x, max_x);
+	uniform_real_distribution<float> dis_z(min_z, max_z);
+	uniform_int_distribution<int> dis_d(0, 360);
+	uniform_int_distribution<int> dis_c(0, max_class);
+
+	while (places.size() < max_num && iter_times < max_iter_times) {
+		object_t obj_temp(dis_c(gen), dis_x(gen), 0, dis_z(gen), dis_d(gen));
+		if (is_able_place(places, obj_temp, min_interval))
+			places.push_back(obj_temp);
+	}
+	return places;
+}
+
+void load_tile() {
+	auto tilec = load_model("tilec.obj", "models\\floor\\", 6);
+	tilec->translation(0, -0.03, 0);
+	tilec->rotation(0, 1, 0, -5);
+	models.push_back(move(tilec));
 	auto tile = load_model("tile.obj", "models\\floor\\", 1.3);
 	tile->translation(8.0, 0, 0);
 	for (int i = 0; i < 5; i++) {
@@ -1051,43 +1093,182 @@ void load_models() {
 		tile_temp->translation(0, 0, i - 2.0f);
 		models.push_back(move(tile_temp));
 	}
+	for (int i = 0; i < 15; i++) {
+		auto tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(5-i, 0, 0);
+		models.push_back(move(tile_temp));
+	}
 	auto tile_temp = make_unique<model_t>(tile);
-	tile_temp->rotation_a(0, 1, 0, -30);
-	tile_temp->translation(-0.31, 0, -2.85f);
+	tile_temp->rotation_a(0, 1, 0, 15);
+	tile_temp->translation(0.11, 0, -2.95f);
+	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -15);
+	tile_temp->translation(0.11, 0, 2.95f);
 	models.push_back(move(tile_temp));
 
-	//models.push_back(load_model("Echidna.obj", "models\\", 1.0));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, 15);
+	tile_temp->translation(0.37, 0, -3.95f);
+	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -15);
+	tile_temp->translation(0.37, 0, 3.95f);
+	models.push_back(move(tile_temp));
+
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, 15);
+	tile_temp->translation(0.63, 0, -4.95f);
+	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -15);
+	tile_temp->translation(0.63, 0, 4.95f);
+	models.push_back(move(tile_temp));
+	
+	for (int i = 0; i < 4; i++) {
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(0.76, 0, -5.95f - i);
+		models.push_back(move(tile_temp));
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(0.76, 0, 5.95f + i);
+		models.push_back(move(tile_temp));
+	}
+
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -25);
+	tile_temp->translation(0.56, 0, -9.85f);
+	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, 25);
+	tile_temp->translation(0.56, 0, 9.85f);
+	models.push_back(move(tile_temp));
+
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -45);
+	tile_temp->translation(0.06, 0, -10.55f);
+	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, 45);
+	tile_temp->translation(0.06, 0, 10.55f);
+	models.push_back(move(tile_temp));
+
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, -45);
+	tile_temp->translation(-0.75, 0, -11.35f);
+	models.push_back(move(tile_temp));
+	tile_temp = make_unique<model_t>(tile);
+	tile_temp->rotation_a(0, 1, 0, 45);
+	tile_temp->translation(-0.75, 0, 11.35f);
+	models.push_back(move(tile_temp));
+
+	for (int i = 0; i < 11; i++) {
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-1.4-i, 0, -11.65f);
+		models.push_back(move(tile_temp));
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-1.4-i, 0, 11.65f);
+		models.push_back(move(tile_temp));
+	}
+
+	for (int i = -3; i < 11; i++) {
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-5.4, 0, -10.65f+i);
+		models.push_back(move(tile_temp));
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-5.4, 0, 10.65f-i);
+		models.push_back(move(tile_temp));
+
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-11.4, 0, -10.65f + i);
+		models.push_back(move(tile_temp));
+		tile_temp = make_unique<model_t>(tile);
+		tile_temp->translation(-11.4, 0, 10.65f - i);
+		models.push_back(move(tile_temp));
+	}
+
+
+}
+
+void load_bench() {
+	auto bench = load_model("bench.obj", "models\\bench\\", 1);
+	auto bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(9.3, 0, -3.5);
+	bench_temp->rotation_a(0, 1, 0, 105);
+	models.push_back(move(bench_temp));
+	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(9.6, 0, -4.7);
+	bench_temp->rotation_a(0, 1, 0, 105);
+	models.push_back(move(bench_temp));
+}
+
+void load_tree() {
+	auto tree1 = load_model("tree1.obj", "models\\tree\\", 2);
+	auto tree2 = load_model("tree2.obj", "models\\tree\\", 2);
+	auto tree3 = load_model("tree3.obj", "models\\tree\\", 2);
+	auto tree4 = load_model("tree4.obj", "models\\tree\\", 2);
+	auto tree5 = load_model("tree5.obj", "models\\tree\\", 2);
+	auto gress1 = load_model("gress1.obj", "models\\gress\\", 2);
+	auto rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 5, 4, 0.5, 14523423);
+	unique_ptr<model_t> object_temp;
+	for (const auto& p : rand_palace) {
+		if(p.c == 0)
+			object_temp = make_unique<model_t>(tree1);
+		else if(p.c == 1)
+			object_temp = make_unique<model_t>(tree2);
+		else
+			object_temp = make_unique<model_t>(tree1);
+		object_temp->translation(p.x, 0.05, p.z);
+		object_temp->rotation_a(0, 1, 0, p.r);
+		models.push_back(move(object_temp));
+	}
+	rand_palace = make_random_place(4.0f, 7.0f, -7.0f, -1.5f, 4, 0, 0.5, 523421);
+	for (const auto& p : rand_palace) {
+		if (p.c == 0)
+			object_temp = make_unique<model_t>(gress1);
+		else
+			object_temp = make_unique<model_t>(gress1);
+		object_temp->translation(p.x, 0.05, p.z);
+		object_temp->rotation_a(0, 1, 0, p.r);
+		models.push_back(move(object_temp));
+	}
+}
+
+void load_models() {
+	//Å¸ï¿½ï¿½ ï¿½Îµï¿½
+	load_tile();
+
+	load_bench();
+
+	load_tree();
+
+	/*models.push_back(load_model("Echidna.obj", "models\\", 1.0));
 	
 	auto kamen = load_model("Kamen.obj", "models\\Kamen\\", 1.0);
 	kamen->translation(1, 0, 0);
-	models.push_back(move(kamen));
+	models.push_back(move(kamen));*/
 
 	auto ground = load_model("ground_sim.obj", "models\\ground\\", 10);
-	ground->translation(0, -1.07, 0);
+	ground->translation(0, -1.1, 0);
 	for (int i = 0; i < 2; i++) {
-		for (int j = 0; j < 2; j++) {
+		for (int j = 0; j < 4; j++) {
 			auto ground_temp = make_unique<model_t>(ground);
-			ground_temp->translation(i * 9, 0, j*7-3.5);
+			ground_temp->translation(i * 9, 0, j*7-10.5);
 			models.push_back(move(ground_temp));
 		}
 	}
 
-	auto tree1 = load_model("tree1.obj", "models\\tree1\\", 2);
-	tree1->translation(0, 0, -2.0);
-	for (int i = 0; i < 2; i++) {
-		auto tree1_temp = make_unique<model_t>(tree1);
-		tree1_temp->translation(i * 3, 0, 0);
-		models.push_back(move(tree1_temp));
-	}
-
 	auto forutain = load_model("forutain.obj", "models\\forutain\\", 2.3);
-	forutain->translation(-1, 0, 0);
+	forutain->translation(0, 0.1, 0);
 	models.push_back(move(forutain));
 
 	auto basketball = load_model("basketball.obj", "models\\basketball\\", 3);
 	basketball->translation(10, 0.5, 8);
 	basketball->rotation_a(0, 1, 0, 90);
 	models.push_back(move(basketball));
+	
+	auto toilet = load_model("public_toilet_sim.obj", "models\\public_toilet\\", 3.5);
+	toilet->translation(5.5, 0.05, -9);
+	models.push_back(move(toilet));
 
 }
 

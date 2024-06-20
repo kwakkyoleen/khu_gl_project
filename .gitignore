@@ -395,3 +395,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+Kinect_Sample_Re/x64/*
+
+x64/*

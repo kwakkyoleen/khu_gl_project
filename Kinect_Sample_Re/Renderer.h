@@ -7,6 +7,8 @@
 #include "stb_image.h"
 #include <list>
 #include <vector>
+#include <utility>
+#include <random>
 #include <memory>
 //#define TIME_CHECK_
 #define DEPTH_CALIB_
@@ -43,6 +45,7 @@ public:
 	int illum = 0;
 	int width=0, height=0, nrChannels=0;
 	int ewidth=0, eheight=0, enrChannels=0;
+	float texture_offset_x = 0, texture_offset_y = 0, texture_offset_z = 0;
 	int ts_x = 1, ts_y = 1, ts_z = 1; // texture scale
 	bool loadTexture(const char* filename);
 	bool loadEmission(const char* filename);
@@ -100,6 +103,14 @@ public :
 		zmax = other->zmax;
 	}
 
+};
+
+class object_t {
+public:
+	float x, y, z;
+	int r, c;
+	object_t(int c_, float x_, float y_, float z_, int r_) :
+		c(c_), x(x_), y(y_), z(z_), r(r_) {}
 };
 
 // variables for GUI
