@@ -389,7 +389,7 @@ void display()
 
 	glEnable(GL_LIGHTING);
 	GLfloat diffuse0[4] = { 0, 0, 0, 1.0 };
-	GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 1.0 };
+	GLfloat ambient0[4] = { 0.1, 0.1, 0.1, 0.0 };
 	GLfloat specular0[4] = { 0, 0, 0, 1.0 };
 	GLfloat light0_pos[4] = { 0, 30, 0, 0.0 };
 
