@@ -1256,6 +1256,24 @@ void load_bench() {
 	bench_temp->translation(0.8, 0, -13.0);
 	bench_temp->rotation_a(0, 1, 0, 0);
 	models.push_back(move(bench_temp));
+
+	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(-9.7, 0, 7.8);
+	bench_temp->rotation_a(0, 1, 0, 90);
+	models.push_back(move(bench_temp));
+	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(-9.7, 0, 6.5);
+	bench_temp->rotation_a(0, 1, 0, 90);
+	models.push_back(move(bench_temp));
+
+	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(9.7, 0, 7.8);
+	bench_temp->rotation_a(0, 1, 0, 90);
+	models.push_back(move(bench_temp));
+	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(9.7, 0, 6.5);
+	bench_temp->rotation_a(0, 1, 0, 90);
+	models.push_back(move(bench_temp));
 }
 
 void load_tree() {
