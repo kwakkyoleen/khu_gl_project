@@ -1231,6 +1231,15 @@ void load_bench() {
 	models.push_back(move(bench_temp));
 
 	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(9.3, 0, 3.5);
+	bench_temp->rotation_a(0, 1, 0, 75);
+	models.push_back(move(bench_temp));
+	bench_temp = make_unique<model_t>(bench);
+	bench_temp->translation(9.6, 0, 4.7);
+	bench_temp->rotation_a(0, 1, 0,75);
+	models.push_back(move(bench_temp));
+
+	bench_temp = make_unique<model_t>(bench);
 	bench_temp->translation(5, 0, -13.0);
 	bench_temp->rotation_a(0, 1, 0, 0);
 	models.push_back(move(bench_temp));
@@ -1338,6 +1347,11 @@ void load_lamp() {
 	models.push_back(move(obj_temp));
 
 	obj_temp = make_unique<model_t>(lamp);
+	obj_temp->translation(10, 0, 10);
+	lamp_loc.push_back(Vertex(10.0f, 2.0f, 10.0f));
+	models.push_back(move(obj_temp));
+
+	obj_temp = make_unique<model_t>(lamp);
 	obj_temp->translation(4, 0, -13);
 	lamp_loc.push_back(Vertex(4.0f, 2.0f, -13.0f));
 	models.push_back(move(obj_temp));
@@ -1373,12 +1387,6 @@ void load_models() {
 	load_tree();
 
 	load_lamp();
-
-	/*models.push_back(load_model("Echidna.obj", "models\\", 1.0));
-	
-	auto kamen = load_model("Kamen.obj", "models\\Kamen\\", 1.0);
-	kamen->translation(1, 0, 0);
-	models.push_back(move(kamen));*/
 
 	auto forutain = load_model("forutain.obj", "models\\forutain\\", 2.3);
 	forutain->translation(0, 0.1, 0);
